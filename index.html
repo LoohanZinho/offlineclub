@@ -24,6 +24,7 @@
 			overflow: hidden !important;
 		}
 
+
 		/* Custom Font for Signature */
 		@font-face {
 			font-family: 'Chicken Rice';
@@ -31,6 +32,31 @@
 			font-weight: normal;
 			font-style: normal;
 			font-display: swap;
+		}
+
+		/* Global Scroll Animation Classes - Maximum Specificity */
+		.elementor-element.elementor-widget.scroll-left,
+		.elementor-element.item.scroll-left {
+			opacity: 0 !important;
+			transform: translateX(-30px) !important;
+			transition: all 0.5s ease-out !important;
+		}
+		.elementor-element.elementor-widget.scroll-left.ativo,
+		.elementor-element.item.scroll-left.ativo {
+			opacity: 1 !important;
+			transform: translateX(0) !important;
+		}
+
+		.elementor-element.elementor-widget.scroll-right,
+		.elementor-element.item.scroll-right {
+			opacity: 0 !important;
+			transform: translateX(30px) !important;
+			transition: all 0.5s ease-out !important;
+		}
+		.elementor-element.elementor-widget.scroll-right.ativo,
+		.elementor-element.item.scroll-right.ativo {
+			opacity: 1 !important;
+			transform: translateX(0) !important;
 		}
 	</style>
 	<style>
@@ -1002,17 +1028,17 @@
 				left: auto !important;
 				right: auto !important;
 				bottom: auto !important;
-				transform: none !important;
+				/* transform removed to allow scroll-left/right animations */
 				width: calc(50% - 8px) !important;
 				max-width: calc(50% - 8px) !important;
 				min-width: auto !important;
 				box-sizing: border-box !important;
 				flex: 0 0 calc(50% - 8px) !important;
 
-				/* Entrance animation - slide up + fade */
-				animation: pillSlideUp 0.6s ease-out forwards, pillFloat 3s ease-in-out 0.8s infinite !important;
-				opacity: 0;
-				transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+				/* Entrance animation - REMOVED to allow global scroll-left/right to work */
+				/* animation: pillSlideUp 0.6s ease-out forwards, pillFloat 3s ease-in-out 0.8s infinite !important; */
+				/* opacity: 0; */
+				/* transition: transform 0.3s ease, box-shadow 0.3s ease !important; */
 			}
 
 			/* Staggered animation delay for each pill */
@@ -1525,20 +1551,20 @@
 				</div>
 			</div>
 		</div>
-		<!-- Card 1: Sobre a Comunidade Offline Club -->
-		<div class="elementor-element e-flex e-con-boxed e-con e-parent e-lazyloaded" 
-			style="margin-top: -100px !important; margin-bottom: 100px !important; padding: 0 20px !important; max-width: 590px !important; margin-left: auto !important; margin-right: auto !important; width: 100% !important;" data-element_type="container">
-			<div class="e-con-inner e-con-full e-flex e-con e-child" style="max-width: 550px; margin: 0 auto;">
+	<!-- Card 1: Sobre a Comunidade Offline Club -->
+	<div class="elementor-element e-flex e-con-boxed e-con e-parent e-lazyloaded" 
+		style="display: block !important; margin-top: -100px !important; margin-bottom: 100px !important; padding: 0 20px !important; max-width: 1000px !important; margin-left: auto !important; margin-right: auto !important; width: 100% !important;" data-element_type="container">
+		<div class="e-con-inner e-con-full e-flex e-con e-child" style="max-width: 100%; margin: 0 auto;">
 				<div class="offline-glass-card" style="
-					background: radial-gradient(ellipse at center, rgba(40, 40, 40, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
-					backdrop-filter: blur(15px);
-					-webkit-backdrop-filter: blur(15px);
-					border: 1.5px solid rgba(255, 255, 255, 0.12);
+					background: transparent;
+					backdrop-filter: blur(12px);
+					-webkit-backdrop-filter: blur(12px);
+					border: none;
 					border-radius: 40px;
-					padding: 50px 40px 40px 40px;
+					padding: 50px;
 					text-align: center;
 					position: relative;
-					box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+					box-shadow: inset 0px 0px 4.4px 0px rgba(255, 255, 255, 0.53);
 				">
 					<!-- Ícone Floating -->
 					<div style="
@@ -1551,22 +1577,20 @@
 						padding: 16px;
 						box-shadow: 0 0 25px rgba(255, 255, 255, 0.12);
 					">
-						<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-							<path d="M12 2L2 7l10 5 10-5-10-5z"/>
-							<path d="M2 17l10 5 10-5"/>
-							<path d="M2 12l10 5 10-5"/>
+						<svg width="28" height="28" viewBox="0 0 512 512" fill="white" xmlns="http://www.w3.org/2000/svg">
+							<path d="M299.538 26.987c-27.712 4.261-39.38 15.192-49.267 22.648l-.053.041-.053.041c-73.941 57.51-101.795 128.454-108.16 196.262-6.068 64.64 6.728 126.235 16.002 173.3-34.558 15.572-55.01 34.272-73.676 63.16 49.896.875 114.104 3.897 154.125-14.92 33.248 24.616 108.192 18.58 125.744 12.72-15.002-12.068-30.944-22.905-53.937-24.522-1.684-10.036-2.83-21.368-2.192-30.248 25.491-100.31 58.396-193.682 30.438-315.685 27.736-8.906 78.544-25.196 89.16-35.451-20.08-15.046-90.089-52.22-128.13-47.346zm60.707 36.559.867 13.955c-23.91 13.53-34.384 18.079-59.607 24.576-9.107-16.065-22.116-30.075-33.367-43.555 34.533-19.437 53.308-15.992 92.107 5.024zm-72.43 51.62c-.99 18.622-6.979 37.33-10.996 53.891-7.99-11.08-20.678-17.038-33.222-16.574-4.64.171-9.26 1.22-13.61 3.207-8.7 3.976-16.028 11.913-19.63 22.748-3.603 10.835-3.732 24.346.396 40.598 6.371 25.08 6.294 69.204 7.719 106.699.712 18.747 1.8 35.878 4.814 49.297 1.507 6.709 3.403 12.55 6.776 17.539 3.372 4.988 9.425 9.27 16.175 9.25l.336-.002.334-.026a43.534 43.534 0 0 0 3.383-.398c-2.61 21.604 12.917 42.21 12.26 60.81-9.846-5.039-14.043-9.963-22.057-16.117-37.715 21.695-84.065 18.818-120.26 17.752 20.485-17.142 36.638-25.124 58.305-33.273-14.806-66.279-23.097-128.644-18.613-182.904 5.814-61.937 28.745-124.924 93.33-178.202 20.062 5.353 34.83 40.62 34.56 45.705zm-24.19 66.569c18.134 32.064 26.544 83.772 22.802 126.738-1.871 21.483-6.771 40.786-14.04 54.17-4.19 6.172-22.242 27.486-27.411 19.846-1.247-1.844-2.888-5.893-4.125-11.4-2.474-11.016-3.693-27.621-4.393-46.038-1.4-36.833-.715-80.751-8.258-110.445-3.515-13.837-2.97-23.85-.761-30.49 6.1-18.223 28.237-14.862 36.185-2.381z"/>
 						</svg>
 					</div>
 
-					<!-- Conteúdo do Card -->
-					<h2 style="
-						font-family: 'Inter', sans-serif;
-						font-size: 28px;
-						font-weight: 800;
-						color: #fff;
-						margin: 25px 0 20px 0;
-						line-height: 1.3;
-					">A melhor comunidade do mercado digital</h2>
+				<!-- Conteúdo do Card -->
+				<h2 style="
+					font-family: 'Inter', sans-serif;
+					font-size: 28px;
+					font-weight: 800;
+					color: #fff;
+					margin: 25px 0 20px 0;
+					line-height: 1.3;
+				"><span class="deg">A melhor comunidade do mercado digital</span></h2>
 
 					<p style="
 						font-family: 'Inter', sans-serif;
@@ -1606,40 +1630,56 @@
 							color: rgba(255, 255, 255, 0.85);
 							margin: 0;
 							text-align: right;
-						">Vinícius Troncoso</p>
+						">-- Vinícius Troncoso</p>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<style>
-			/* Responsividade dos Cards */
-			@media (max-width: 768px) {
-				.offline-glass-card {
-					padding: 40px 30px 35px 30px !important;
-					border-radius: 30px !important;
-				}
-				.offline-glass-card h2 {
-					font-size: 24px !important;
-				}
-				.offline-glass-card p {
-					font-size: 15px !important;
-				}
-			}
+	<style>
+		/* Estilo de gradiente para texto (classe .deg) */
+		.deg {
+			background-image: radial-gradient(1101.38% 132.04% at 52.23% 38.16%, rgb(255, 255, 255) 0%, rgb(138, 138, 138) 100%);
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			font-weight: 500;
+		}
 
-			/* Desktop: Estilo clonado do card de referência */
-			@media (min-width: 769px) {
-				.offline-glass-card {
-					background: radial-gradient(ellipse at center, rgba(50, 50, 50, 0.7) 0%, rgba(10, 10, 10, 0.9) 100%) !important;
-					border: 2px solid rgba(255, 255, 255, 0.15) !important;
-					box-shadow: 0 25px 70px rgba(0, 0, 0, 0.7), 
-					            inset 0 2px 0 rgba(255, 255, 255, 0.15),
-					            inset 0 -2px 0 rgba(0, 0, 0, 0.5) !important;
-					border-radius: 45px !important;
-					padding: 55px 50px 50px 50px !important;
-				}
+		/* Responsividade dos Cards */
+		@media (max-width: 768px) {
+			.offline-glass-card {
+				padding: 40px 30px 35px 30px !important;
+				border-radius: 30px !important;
 			}
-		</style>
+			.offline-glass-card h2 {
+				font-size: 24px !important;
+			}
+			.offline-glass-card h2 .deg {
+				font-size: inherit;
+			}
+			.offline-glass-card p {
+				font-size: 15px !important;
+			}
+		}
+
+		/* Desktop: Estilo clonado do card de referência */
+		@media (min-width: 769px) {
+			.offline-glass-card {
+				background: transparent !important;
+				border: none !important;
+				box-shadow: inset 0px 0px 4.4px 0px rgba(255, 255, 255, 0.53) !important;
+				border-radius: 40px !important;
+				padding: 50px !important;
+				backdrop-filter: blur(12px) !important;
+				-webkit-backdrop-filter: blur(12px) !important;
+			}
+			.offline-glass-card h2 .deg {
+				font-size: 28px;
+				font-weight: 800;
+			}
+		}
+	</style>
 
 		<div class="elementor-element elementor-element-2cb7d0c e-flex e-con-boxed e-con e-parent e-lazyloaded"
 			style="margin-top: -200px;" data-id="2cb7d0c" data-element_type="container">
@@ -2919,11 +2959,9 @@
 			<div class="e-con-inner">
 				<div class="elementor-element elementor-element-56f2d25 e-con-full e-flex e-con e-child elementor-motion-effects-parent"
 					data-id="56f2d25" data-element_type="container">
-					<div class="elementor-element elementor-element-c846f3a elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-c846f3a elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-left"
 						data-id="c846f3a" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:66,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: -100px; --e-transform-transition-duration: 100ms; transform: translateY(var(--translateY));">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -2937,11 +2975,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-4f2c9c8 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated fadeInUp"
+					<div class="elementor-element elementor-element-4f2c9c8 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-right"
 						data-id="4f2c9c8" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_direction&quot;:&quot;negative&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:50,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;fadeInUp&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: 100px; transform: translateY(var(--translateY)); --e-transform-transition-duration: 100ms;">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -2955,11 +2991,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-ab2b43f elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-ab2b43f elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-left"
 						data-id="ab2b43f" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_direction&quot;:&quot;negative&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:48,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: 100px; transform: translateY(var(--translateY)); --e-transform-transition-duration: 100ms;">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -2973,11 +3007,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-99481ca elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-99481ca elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-right"
 						data-id="99481ca" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:40,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: -100px; --e-transform-transition-duration: 100ms; transform: translateY(var(--translateY));">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -2991,11 +3023,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-b13331a elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-b13331a elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-left"
 						data-id="b13331a" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_direction&quot;:&quot;negative&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:36,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: 100px; --e-transform-transition-duration: 100ms; transform: translateY(var(--translateY));">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -3012,11 +3042,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-2b10e44 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-2b10e44 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-right"
 						data-id="2b10e44" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:40,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: -100px; --e-transform-transition-duration: 100ms; transform: translateY(var(--translateY));">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -3033,11 +3061,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-d56acd3 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-d56acd3 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-left"
 						data-id="d56acd3" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_direction&quot;:&quot;negative&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:39,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: 100px; transform: translateY(var(--translateY)); --e-transform-transition-duration: 100ms;">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -3051,11 +3077,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-0699573 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element"
+					<div class="elementor-element elementor-element-0699573 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-right"
 						data-id="0699573" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_direction&quot;:&quot;negative&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:6,&quot;end&quot;:100}},&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: 100px; --e-transform-transition-duration: 100ms; transform: translateY(var(--translateY));">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -3069,11 +3093,9 @@
 							</li>
 						</ul>
 					</div>
-					<div class="elementor-element elementor-element-ecd7bc7 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list elementor-motion-effects-element animated zoomIn"
+					<div class="elementor-element elementor-element-ecd7bc7 elementor-absolute item elementor-icon-list--layout-traditional elementor-list-item-link-full_width elementor-widget elementor-widget-icon-list scroll-left"
 						data-id="ecd7bc7" data-element_type="widget"
-						data-settings="{&quot;_position&quot;:&quot;absolute&quot;,&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_effect&quot;:&quot;yes&quot;,&quot;motion_fx_translateY_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:2,&quot;sizes&quot;:[]},&quot;motion_fx_translateY_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:13,&quot;end&quot;:100}},&quot;_animation&quot;:&quot;zoomIn&quot;,&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;]}"
-						data-widget_type="icon-list.default"
-						style="--translateY: -100px; transform: translateY(var(--translateY)); --e-transform-transition-duration: 100ms;">
+						data-widget_type="icon-list.default">
 						<ul class="elementor-icon-list-items">
 							<li class="elementor-icon-list-item">
 								<span class="elementor-icon-list-icon">
@@ -4025,20 +4047,20 @@
 				</div>
 			</div>
 		</div>
-		<!-- Card 2: Último Recado -->
-		<div class="elementor-element e-flex e-con-boxed e-con e-parent e-lazyloaded" 
-			style="margin-top: 100px !important; margin-bottom: 100px !important; padding: 0 20px !important; max-width: 590px !important; margin-left: auto !important; margin-right: auto !important; width: 100% !important;" data-element_type="container">
-			<div class="e-con-inner e-con-full e-flex e-con e-child" style="max-width: 550px; margin: 0 auto;">
+	<!-- Card 2: Último Recado -->
+	<div class="elementor-element e-flex e-con-boxed e-con e-parent e-lazyloaded" 
+		style="display: block !important; margin-top: 100px !important; margin-bottom: 100px !important; padding: 0 20px !important; max-width: 1000px !important; margin-left: auto !important; margin-right: auto !important; width: 100% !important;" data-element_type="container">
+		<div class="e-con-inner e-con-full e-flex e-con e-child" style="max-width: 100%; margin: 0 auto;">
 				<div class="offline-glass-card" style="
-					background: radial-gradient(ellipse at center, rgba(40, 40, 40, 0.6) 0%, rgba(0, 0, 0, 0.8) 100%);
-					backdrop-filter: blur(15px);
-					-webkit-backdrop-filter: blur(15px);
-					border: 1.5px solid rgba(255, 255, 255, 0.12);
+					background: transparent;
+					backdrop-filter: blur(12px);
+					-webkit-backdrop-filter: blur(12px);
+					border: none;
 					border-radius: 40px;
-					padding: 50px 40px 40px 40px;
+					padding: 50px;
 					text-align: center;
 					position: relative;
-					box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+					box-shadow: inset 0px 0px 4.4px 0px rgba(255, 255, 255, 0.53);
 				">
 					<!-- Ícone Floating -->
 					<div style="
@@ -4051,73 +4073,72 @@
 						padding: 16px;
 						box-shadow: 0 0 25px rgba(255, 255, 255, 0.12);
 					">
-						<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5">
-							<circle cx="12" cy="12" r="10"/>
-							<line x1="12" y1="8" x2="12" y2="12"/>
-							<line x1="12" y1="16" x2="12.01" y2="16"/>
+						<svg width="28" height="28" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+							<path d="M15 1H9v2h6V1zm-4 13h2V8h-2v6zm8.03-6.61l1.42-1.42c-.43-.51-.9-.99-1.41-1.41l-1.42 1.42C16.07 4.74 14.12 4 12 4c-4.97 0-9 4.03-9 9s4.02 9 9 9 9-4.03 9-9c0-2.12-.74-4.07-1.97-5.61zM12 20c-3.87 0-7-3.13-7-7s3.13-7 7-7 7 3.13 7 7-3.13 7-7 7z"/>
 						</svg>
 					</div>
 
-					<!-- Conteúdo do Card -->
-					<h2 style="
-						font-family: 'Inter', sans-serif;
-						font-size: 28px;
-						font-weight: 800;
-						color: #fff;
-						margin: 25px 0 20px 0;
-						line-height: 1.3;
-					">Último recado antes de você entrar</h2>
+			<!-- Conteúdo do Card -->
+			<h2 style="
+				font-family: 'Inter', sans-serif;
+				font-size: 28px;
+				font-weight: 800;
+				color: #fff;
+				margin: 25px 0 20px 0;
+				line-height: 1.3;
+				text-align: center;
+			"><span class="deg">Último recado antes de você entrar</span></h2>
 
+				<p style="
+					font-family: 'Inter', sans-serif;
+					font-size: 16px;
+					font-weight: 400;
+					color: rgba(255, 255, 255, 0.8);
+					line-height: 1.65;
+					margin: 0 0 18px 0;
+					text-align: center;
+				">Se você é daqueles que acredita em <strong>dinheiro fácil</strong>, que ficará milionário em poucas semanas ou que não precisará trabalhar, <strong>não entre</strong>.</p>
+
+				<p style="
+					font-family: 'Inter', sans-serif;
+					font-size: 16px;
+					font-weight: 400;
+					color: rgba(255, 255, 255, 0.8);
+					line-height: 1.65;
+					margin: 0 0 18px 0;
+					text-align: center;
+				">Se o seu objetivo é fazer apenas mais mil, dois mil reais…<br>repense a sua mentalidade.</p>
+
+				<p style="
+					font-family: 'Inter', sans-serif;
+					font-size: 16px;
+					font-weight: 500;
+					color: rgba(255, 255, 255, 0.88);
+					line-height: 1.65;
+					margin: 0 0 18px 0;
+					text-align: center;
+				">Você é <strong>capaz de muito mais</strong>, mesmo que talvez ainda não acredite nisso.</p>
+
+				<p style="
+					font-family: 'Inter', sans-serif;
+					font-size: 16px;
+					font-weight: 400;
+					color: rgba(255, 255, 255, 0.8);
+					line-height: 1.65;
+					margin: 0 0 25px 0;
+					text-align: center;
+				">Eu te prometo: uma vez que você começa a ver <strong>resultados</strong>, o esforço se torna <strong>viciante</strong>, e você nunca mais será capaz de esquecer o <strong>gosto da vitória</strong>.</p>
+
+				<!-- Assinatura -->
+				<div style="text-align: center; margin-top: 20px;">
 					<p style="
-						font-family: 'Inter', sans-serif;
-						font-size: 16px;
-						font-weight: 400;
-						color: rgba(255, 255, 255, 0.8);
-						line-height: 1.65;
-						margin: 0 0 18px 0;
-						text-align: left;
-					">Se você é daqueles que acredita em <strong>dinheiro fácil</strong>, que ficará milionário em poucas semanas ou que não precisará trabalhar, <strong>não entre</strong>.</p>
-
-					<p style="
-						font-family: 'Inter', sans-serif;
-						font-size: 16px;
-						font-weight: 400;
-						color: rgba(255, 255, 255, 0.8);
-						line-height: 1.65;
-						margin: 0 0 18px 0;
-						text-align: left;
-					">Se o seu objetivo é fazer apenas mais mil, dois mil reais…<br>repense a sua mentalidade.</p>
-
-					<p style="
-						font-family: 'Inter', sans-serif;
-						font-size: 16px;
-						font-weight: 500;
-						color: rgba(255, 255, 255, 0.88);
-						line-height: 1.65;
-						margin: 0 0 18px 0;
-						text-align: left;
-					">Você é <strong>capaz de muito mais</strong>, mesmo que talvez ainda não acredite nisso.</p>
-
-					<p style="
-						font-family: 'Inter', sans-serif;
-						font-size: 16px;
-						font-weight: 400;
-						color: rgba(255, 255, 255, 0.8);
-						line-height: 1.65;
-						margin: 0 0 25px 0;
-						text-align: left;
-					">Eu te prometo: uma vez que você começa a ver <strong>resultados</strong>, o esforço se torna <strong>viciante</strong>, e você nunca mais será capaz de esquecer o <strong>gosto da vitória</strong>.</p>
-
-					<!-- Assinatura -->
-					<div style="text-align: right; margin-top: 20px;">
-						<p style="
-							font-family: 'Chicken Rice', cursive;
-							font-size: 24px;
-							color: rgba(255, 255, 255, 0.85);
-							margin: 0;
-							text-align: right;
-						">Vinícius Troncoso</p>
-					</div>
+						font-family: 'Chicken Rice', cursive;
+						font-size: 24px;
+						color: rgba(255, 255, 255, 0.85);
+						margin: 0;
+						text-align: center;
+					">-- Vinícius Troncoso</p>
+				</div>
 				</div>
 			</div>
 		</div>
@@ -4140,9 +4161,7 @@
 					data-id="d678cb0" data-element_type="container">
 					<div class="elementor-element elementor-element-96370f3 elementor-widget__width-initial elementor-widget elementor-widget-image elementor-motion-effects-element"
 						data-id="96370f3" data-element_type="widget"
-						data-settings="{&quot;motion_fx_motion_fx_scrolling&quot;:&quot;yes&quot;,&quot;motion_fx_blur_effect&quot;:&quot;yes&quot;,&quot;motion_fx_blur_direction&quot;:&quot;out-in-out&quot;,&quot;motion_fx_blur_range&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:29,&quot;end&quot;:67}},&quot;motion_fx_rotateZ_effect&quot;:&quot;yes&quot;,&quot;motion_fx_rotateZ_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:0.2,&quot;sizes&quot;:[]},&quot;motion_fx_scale_effect&quot;:&quot;yes&quot;,&quot;motion_fx_scale_speed&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:1,&quot;sizes&quot;:[]},&quot;motion_fx_blur_level&quot;:{&quot;unit&quot;:&quot;px&quot;,&quot;size&quot;:7,&quot;sizes&quot;:[]},&quot;motion_fx_rotateZ_affectedRange&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:0,&quot;end&quot;:100}},&quot;motion_fx_scale_direction&quot;:&quot;out-in&quot;,&quot;motion_fx_scale_range&quot;:{&quot;unit&quot;:&quot;%&quot;,&quot;size&quot;:&quot;&quot;,&quot;sizes&quot;:{&quot;start&quot;:20,&quot;end&quot;:80}},&quot;motion_fx_devices&quot;:[&quot;desktop&quot;,&quot;tablet&quot;,&quot;mobile&quot;]}"
-						data-widget_type="image.default"
-						style="--blur: 7px; --rotateZ: -10deg; --scale: 1.1; --e-transform-transition-duration: 100ms; filter: blur(var(--blur)); transform: rotateZ(var(--rotateZ))scale(var(--scale));">
+						data-widget_type="image.default">
 						<img loading="lazy" decoding="async" width="392" height="483"
 							src="//offlineclub.com.br/wp-content/uploads/2025/03/Imagem-chave-1.png"
 							class="attachment-full size-full wp-image-36 entered lazyloaded" alt=""
@@ -4335,6 +4354,21 @@
 							const elementos = document.querySelectorAll(".scroll-left, .scroll-right, .scroll-top, .scroll-bottom, .blur, .lista .elementor-icon-list-item, .faq .e-n-accordion-item");
 							const posicaoScroll = window.innerHeight * 0.5;
 							let scrollRAF = null;
+
+							// Clear Elementor's conflicting inline styles from scroll-animated elements
+							function clearElementorStyles() {
+								const scrollElements = document.querySelectorAll(".scroll-left, .scroll-right");
+								scrollElements.forEach(el => {
+									el.style.removeProperty('opacity');
+									el.style.removeProperty('transform');
+									el.style.removeProperty('animation');
+								});
+							}
+
+							// Run immediately and after a delay (to catch Elementor's runtime injections)
+							clearElementorStyles();
+							setTimeout(clearElementorStyles, 100);
+							setTimeout(clearElementorStyles, 500);
 
 							function fadeScroll() {
 								elementos.forEach(elemento => {
