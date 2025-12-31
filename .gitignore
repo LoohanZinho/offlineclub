@@ -1,0 +1,9 @@
+.netlify/
+*.wpress
+*.zip
+offlineclub-com-br-*/
+backup_project/
+wp_extract/
+node_modules/
+*.log
+.DS_Store

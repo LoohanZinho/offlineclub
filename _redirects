@@ -1,0 +1,27 @@
+# Clean URLs - Remove .html extension
+/bem-vindo        /bem-vindo.html        200
+/bio              /bio.html              200
+/boas-vindas-plus /boas-vindas-plus.html 200
+/desafio          /desafio.html          200
+/eugustavosextaro /eugustavosextaro.html 200
+/mensagem         /mensagem.html         200
+/merch            /merch.html            200
+/offline-222      /offline-222.html      200
+/plus             /plus.html             200
+/soier-e-troncoso /soier-e-troncoso.html 200
+/suporte          /suporte.html          200
+/welcome-formacao /welcome-formacao.html 200
+
+# Handle trailing slashes too
+/bem-vindo/        /bem-vindo.html        200
+/bio/              /bio.html              200
+/boas-vindas-plus/ /boas-vindas-plus.html 200
+/desafio/          /desafio.html          200
+/eugustavosextaro/ /eugustavosextaro.html 200
+/mensagem/         /mensagem.html         200
+/merch/            /merch.html            200
+/offline-222/      /offline-222.html      200
+/plus/             /plus.html             200
+/soier-e-troncoso/ /soier-e-troncoso.html 200
+/suporte/          /suporte.html          200
+/welcome-formacao/ /welcome-formacao.html 200
