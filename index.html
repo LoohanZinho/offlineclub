@@ -5039,116 +5039,238 @@
 			left: 0;
 			width: 100%;
 			height: 100%;
-			background: rgba(0, 0, 0, 0.85);
-			backdrop-filter: blur(10px);
+			background: #000;
 			z-index: 99999;
-			display: none;
+			display: flex;
+			/* Show immediately */
 			align-items: center;
 			justify-content: center;
 			cursor: pointer;
-			animation: fadeIn 0.3s ease;
+			overflow: hidden;
 		}
 
-		#sound-overlay.active {
-			display: flex;
+		#sound-overlay.hidden {
+			display: none;
 		}
 
-		@keyframes fadeIn {
-			from {
-				opacity: 0;
+		/* Video Background - Fully Responsive */
+		#sound-overlay-video {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100vw;
+			height: 100vh;
+			object-fit: cover;
+			object-position: center center;
+			opacity: 0.4;
+			z-index: 1;
+		}
+
+		/* Mobile optimizations */
+		@media (max-width: 768px) {
+			#sound-overlay-video {
+				object-position: center center;
 			}
 
-			to {
-				opacity: 1;
+			#sound-overlay-content {
+				padding: 20px;
+			}
+
+			#sound-overlay-content .main-title {
+				letter-spacing: 2px;
+			}
+
+			#sound-overlay-content .subtitle {
+				letter-spacing: 2px;
+				margin-bottom: 30px;
+			}
+
+			#sound-overlay-content .rocket-icon {
+				width: 60px;
+				height: 60px;
+			}
+
+			#sound-overlay-content .rocket-icon svg {
+				width: 28px;
+				height: 28px;
 			}
 		}
 
 		#sound-overlay-content {
+			position: relative;
+			z-index: 2;
 			text-align: center;
 			color: white;
 			padding: 40px;
-			border-radius: 20px;
-			background: rgba(255, 255, 255, 0.05);
-			border: 1px solid rgba(255, 255, 255, 0.1);
-			max-width: 400px;
+			max-width: 600px;
 		}
 
-		#sound-overlay-content svg {
-			width: 80px;
-			height: 80px;
-			margin-bottom: 20px;
-			fill: white;
-			animation: pulse 2s infinite;
+		#sound-overlay-content .main-title {
+			font-family: "Outfit", Sans-serif;
+			font-size: clamp(32px, 7vw, 56px);
+			font-weight: 600;
+			text-transform: none;
+			letter-spacing: 0px;
+			margin: 0;
+			line-height: 1.2;
+			text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+			/* Animation */
+			opacity: 0;
+			transform: translateY(30px);
+			animation: overlayFadeInUp 0.8s ease forwards;
+			animation-delay: 0.2s;
 		}
 
-		@keyframes pulse {
+		#sound-overlay-content .main-title .line1 {
+			color: #ffffff;
+		}
+
+		#sound-overlay-content .main-title .line2 {
+			color: #888888;
+			font-style: italic;
+		}
+
+		#sound-overlay-content .subtitle {
+			font-family: "Outfit", Sans-serif;
+			font-size: clamp(11px, 2vw, 14px);
+			letter-spacing: 2px;
+			text-transform: uppercase;
+			color: #666;
+			margin-top: 20px;
+			margin-bottom: 40px;
+			font-weight: 400;
+			/* Animation */
+			opacity: 0;
+			transform: translateY(30px);
+			animation: overlayFadeInUp 0.8s ease forwards;
+			animation-delay: 0.4s;
+			overflow: hidden;
+			border-right: 2px solid #666;
+			white-space: nowrap;
+			width: fit-content;
+			margin-left: auto;
+			margin-right: auto;
+		}
+
+		#sound-overlay-content .subtitle.typing {
+			animation: overlayFadeInUp 0.8s ease forwards, typing 2.5s steps(30, end) 0.6s forwards, blink-caret 0.75s step-end infinite;
+		}
+
+		@keyframes typing {
+			from {
+				width: 0;
+			}
+
+			to {
+				width: 100%;
+			}
+		}
+
+		@keyframes blink-caret {
+
+			from,
+			to {
+				border-color: transparent;
+			}
+
+			50% {
+				border-color: #666;
+			}
+		}
+
+		#sound-overlay-content .overlay-logo {
+			width: clamp(120px, 30vw, 200px);
+			height: auto;
+			margin: 0 auto;
+			display: block;
+			/* Animation */
+			opacity: 0;
+			transform: translateY(30px);
+			animation: overlayFadeInUp 0.8s ease forwards, logoPulse 3s infinite ease-in-out 1s;
+			animation-delay: 0.6s;
+			filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+		}
+
+		@keyframes logoPulse {
 
 			0%,
 			100% {
 				transform: scale(1);
-				opacity: 1;
+				filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
 			}
 
 			50% {
-				transform: scale(1.1);
-				opacity: 0.8;
+				transform: scale(1.03);
+				filter: drop-shadow(0 0 30px rgba(255, 255, 255, 0.5));
 			}
-		}
 
-		#sound-overlay-content h2 {
-			font-size: 24px;
-			margin-bottom: 10px;
-			font-weight: 600;
-		}
+			@keyframes overlayFadeInUp {
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
 
-		#sound-overlay-content p {
-			font-size: 16px;
-			opacity: 0.8;
-			margin: 0;
-		}
+			@keyframes rocketPulse {
 
-		#global-mute-btn {
-			position: fixed;
-			bottom: 20px;
-			right: 20px;
-			width: 44px;
-			height: 44px;
-			border-radius: 50%;
-			background: rgba(0, 0, 0, 0.2);
-			backdrop-filter: blur(8px);
-			-webkit-backdrop-filter: blur(8px);
-			border: 1px solid rgba(255, 255, 255, 0.15);
-			color: white;
-			z-index: 9999;
-			cursor: pointer;
-			display: flex;
-			align-items: center;
-			justify-content: center;
-			transition: all 0.3s ease;
-			padding: 0;
-		}
+				0%,
+				100% {
+					transform: scale(1);
+					box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.1), 0 0 40px rgba(255, 255, 255, 0.2);
+				}
 
-		#global-mute-btn:hover {
-			background: rgba(0, 0, 0, 0.4);
-			transform: scale(1.05);
-		}
+				50% {
+					transform: scale(1.05);
+					box-shadow: 0 0 0 12px rgba(255, 255, 255, 0.15), 0 0 60px rgba(255, 255, 255, 0.3);
+				}
+			}
 
-		#global-mute-btn svg {
-			width: 20px;
-			height: 20px;
-			fill: currentColor;
-		}
+			#global-mute-btn {
+				position: fixed;
+				bottom: 20px;
+				right: 20px;
+				width: 44px;
+				height: 44px;
+				border-radius: 50%;
+				background: rgba(0, 0, 0, 0.2);
+				backdrop-filter: blur(8px);
+				-webkit-backdrop-filter: blur(8px);
+				border: 1px solid rgba(255, 255, 255, 0.15);
+				color: white;
+				z-index: 9999;
+				cursor: pointer;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				transition: all 0.3s ease;
+				padding: 0;
+			}
+
+			#global-mute-btn:hover {
+				background: rgba(0, 0, 0, 0.4);
+				transform: scale(1.05);
+			}
+
+			#global-mute-btn svg {
+				width: 20px;
+				height: 20px;
+				fill: currentColor;
+			}
 	</style>
 
 	<!-- Sound Activation Overlay -->
 	<div id="sound-overlay">
+		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto">
+			<source src="public/videos/cliquepraescalar.mp4" type="video/mp4">
+		</video>
 		<div id="sound-overlay-content">
-			<svg viewBox="0 0 24 24">
-				<path
-					d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
-			</svg>
-			<h2>Clique para ativar o som</h2>
-			<p>Toque em qualquer lugar para continuar</p>
+			<h1 class="main-title">
+				<span class="line1">Toque para</span><br>
+				<span class="line2">escalar</span>
+			</h1>
+			<p class="subtitle typing">O clube privado para players do digital</p>
+			<img class="overlay-logo" src="https://offlineclub.com.br/wp-content/uploads/2025/03/as-300x85.png"
+				alt="Offline Club">
 		</div>
 	</div>
 
@@ -5237,14 +5359,16 @@
 				// Initialize icon state
 				updateIcon(isMusicMuted);
 
-				// Autoplay after 100ms
+				// Show overlay immediately (already visible by CSS)
+				// Try autoplay - if it works, user already interacted before
 				setTimeout(() => {
 					bgMusic.play().then(() => {
 						console.log('Background music started automatically');
+						// If autoplay works, hide overlay
+						soundOverlay.classList.add('hidden');
 					}).catch(error => {
-						console.log('Autoplay blocked, showing overlay...', error);
-						// Show overlay when autoplay is blocked
-						soundOverlay.classList.add('active');
+						console.log('Autoplay blocked, overlay already visible', error);
+						// Overlay is already visible, just update mute state
 						isMusicMuted = true;
 						updateIcon(isMusicMuted);
 					});
@@ -5262,7 +5386,7 @@
 					
 					bgMusic.play().then(() => {
 					console.log('Music playing successfully!');
-				soundOverlay.classList.remove('active');
+				soundOverlay.classList.add('hidden');
 				isMusicMuted = false;
 				updateIcon(isMusicMuted);
 				console.log('Music started by user interaction');
