@@ -630,14 +630,14 @@
 			line-height: 1.6;
 		}
 
-		/* Float Animation for Pills */
-		@keyframes float-pill {
+		/* Float Animation for Pills - Margin Based to avoid Transform Conflict */
+		@keyframes float-pill-margin {
 			0% {
 				margin-top: 0px;
 			}
 
 			50% {
-				margin-top: -10px;
+				margin-top: -8px;
 			}
 
 			100% {
@@ -646,7 +646,8 @@
 		}
 
 		.elementor-element.item {
-			animation: float-pill 3.5s ease-in-out infinite;
+			animation: float-pill-margin 3.5s ease-in-out infinite !important;
+			transition: margin-top 0.3s ease;
 		}
 
 		/* Stagger delays */
