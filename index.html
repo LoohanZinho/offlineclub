@@ -1660,6 +1660,11 @@
 			}
 			.offline-glass-card p {
 				font-size: 15px !important;
+				/* Prevent orphan words on mobile */
+				text-wrap: pretty;
+				max-width: 100%;
+				hyphens: auto;
+				-webkit-hyphens: auto;
 			}
 		}
 
@@ -1678,7 +1683,28 @@
 				font-size: 28px;
 				font-weight: 800;
 			}
+			.offline-glass-card p {
+				/* Prevent orphan words on desktop */
+				text-wrap: pretty;
+				max-width: 90ch;
+				margin-left: auto !important;
+				margin-right: auto !important;
+				hyphens: auto;
+				-webkit-hyphens: auto;
+			}
 		}
+
+		/* Redução de espaçamentos */
+		[data-id="1ee7f47"] {
+			margin-bottom: 40px !important;
+		}
+
+		[data-id="56f2d25"] {
+			min-height: 400px !important;
+			height: auto !important;
+		}
+
+
 	</style>
 
 		<div class="elementor-element elementor-element-2cb7d0c e-flex e-con-boxed e-con e-parent e-lazyloaded"
@@ -4049,7 +4075,7 @@
 		</div>
 	<!-- Card 2: Último Recado -->
 	<div class="elementor-element e-flex e-con-boxed e-con e-parent e-lazyloaded" 
-		style="display: block !important; margin-top: 100px !important; margin-bottom: 100px !important; padding: 0 20px !important; max-width: 1000px !important; margin-left: auto !important; margin-right: auto !important; width: 100% !important;" data-element_type="container">
+		style="display: block !important; margin-top: 42px !important; margin-bottom: 42px !important; padding: 0 20px !important; max-width: 1000px !important; margin-left: auto !important; margin-right: auto !important; width: 100% !important;" data-element_type="container">
 		<div class="e-con-inner e-con-full e-flex e-con e-child" style="max-width: 100%; margin: 0 auto;">
 				<div class="offline-glass-card" style="
 					background: transparent;
@@ -5152,7 +5178,8 @@
 				pill.style.setProperty('animation', 'none', 'important'); // Remove debug animations
 				
 				// Target the INTERNAL container - transform works here!
-				const container = pill.querySelector('.elementor-widget-container');
+				// Fallback to firstElementChild if .elementor-widget-container is missing (current structure)
+				const container = pill.querySelector('.elementor-widget-container') || pill.firstElementChild;
 				if (!container) return;
 				
 				// Set initial opacity for fade-in
