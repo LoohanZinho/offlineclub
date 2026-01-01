@@ -11,6 +11,9 @@
 	<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 	<link rel="preconnect" href="https://www.google-analytics.com" crossorigin>
 	<link rel="preconnect" href="https://www.youtube.com" crossorigin>
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 	<style>
 		html,
 		body {
@@ -5050,6 +5053,13 @@
 			justify-content: center;
 			cursor: pointer;
 			overflow: hidden;
+			transition: opacity 0.6s ease, transform 0.6s ease;
+		}
+
+		#sound-overlay.fade-out {
+			opacity: 0;
+			transform: scale(1.05);
+			pointer-events: none;
 		}
 
 		#sound-overlay.hidden {
@@ -5057,7 +5067,8 @@
 		}
 
 		/* Video Background - Fully Responsive */
-		#sound-overlay-video {
+		#sound-overlay-video,
+		#sound-overlay-video-mobile {
 			position: absolute;
 			top: 0;
 			left: 0;
@@ -5067,35 +5078,57 @@
 			object-position: center center;
 			opacity: 0.4;
 			z-index: 1;
+			filter: blur(4px);
 		}
 
 		/* Mobile optimizations */
+		/* Mobile Responsiveness */
 		@media (max-width: 768px) {
-			#sound-overlay-video {
+			#sound-overlay-video,
+			#sound-overlay-video-mobile {
 				object-position: center center;
+				width: 100%;
+				height: 100%;
 			}
 
 			#sound-overlay-content {
 				padding: 20px;
+				max-width: 90%;
 			}
 
 			#sound-overlay-content .main-title {
-				letter-spacing: 2px;
+				font-size: clamp(40px, 12vw, 54px);
+				letter-spacing: -0.01em;
+				line-height: 0.95;
 			}
 
 			#sound-overlay-content .subtitle {
+				font-size: clamp(10px, 3vw, 13px);
+				letter-spacing: 1.5px;
+				margin-top: 20px;
+				margin-bottom: 28px;
+			}
+
+			#sound-overlay-content .overlay-logo {
+				width: clamp(110px, 40vw, 180px);
+			}
+		}
+
+		/* Small phones */
+		@media (max-width: 480px) {
+			#sound-overlay-content .main-title {
+				font-size: 56px !important;
+				text-shadow: 0 0 40px rgba(255,255,255,0.6);
+				line-height: 0.75 !important;
+			}
+
+			#sound-overlay-content .subtitle {
+				font-size: 12px;
 				letter-spacing: 2px;
-				margin-bottom: 30px;
 			}
 
-			#sound-overlay-content .rocket-icon {
-				width: 60px;
-				height: 60px;
-			}
-
-			#sound-overlay-content .rocket-icon svg {
-				width: 28px;
-				height: 28px;
+			#sound-overlay-content .overlay-logo {
+				width: 140px;
 			}
 		}
 
@@ -5105,67 +5138,150 @@
 			text-align: center;
 			color: white;
 			padding: 40px;
-			max-width: 600px;
+			max-width: 1000px;
+		}
+
+		/* Hide ALL line breaks on desktop - show text on 1 line */
+		#sound-overlay-content .main-title br {
+			display: none;
+		}
+
+		/* Desktop: inline display for 1 line */
+		#sound-overlay-content .main-title .line1,
+		#sound-overlay-content .main-title .line2 {
+			display: inline;
+		}
+
+		/* Show breaks on mobile and make block display */
+		@media (max-width: 768px) {
+			#sound-overlay-content .main-title br {
+				display: inline;
+			}
+			
+			#sound-overlay-content .main-title .line1,
+			#sound-overlay-content .main-title .line2 {
+				display: block !important;
+				padding-bottom: 10px;
+			}
+			
+			#sound-overlay-content {
+				overflow: visible !important;
+			}
 		}
 
 		#sound-overlay-content .main-title {
-			font-family: "Outfit", Sans-serif;
-			font-size: clamp(32px, 7vw, 56px);
+			font-family: "Playfair Display", serif;
+			font-size: clamp(48px, 6vw, 72px);
 			font-weight: 600;
 			text-transform: none;
-			letter-spacing: 0px;
+			letter-spacing: -0.01em;
 			margin: 0;
-			line-height: 1.2;
-			text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
-			/* Animation */
-			opacity: 0;
-			transform: translateY(30px);
-			animation: overlayFadeInUp 0.8s ease forwards;
-			animation-delay: 0.2s;
+			line-height: 1;
+			/* Shimmer gradient effect */
+			background: linear-gradient(90deg,
+					#ffffff 0%,
+					#ffffff 25%,
+					#888888 50%,
+					#ffffff 75%,
+					#ffffff 100%);
+			background-size: 200% 100%;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			animation: overlayFadeInUp 1.25s ease-out forwards, overlayShimmer 3s linear infinite;
 		}
 
 		#sound-overlay-content .main-title .line1 {
-			color: #ffffff;
+			display: inline;
 		}
 
 		#sound-overlay-content .main-title .line2 {
-			color: #888888;
+			display: inline;
 			font-style: italic;
+			font-size: 1.2em;
+			font-weight: 700;
+			margin-top: 5px;
+			padding-bottom: 10px; /* For mobile clipping */
+			padding-right: 0.1em; /* For italic overflow on desktop */
+			
+			/* Previous grey gradient */
+			background: linear-gradient(90deg,
+					#888888 0%,
+					#888888 25%,
+					#555555 50%,
+					#888888 75%,
+					#888888 100%);
+			background-size: 200% 100%;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			animation: overlayShimmer 3s linear infinite;
+			
+			/* Removed gold glow/shadow */
+			text-shadow: none;
+			filter: none;
+		}
+
+		@keyframes goldShimmer {
+			0%, 100% {
+				background-position: 300% 0;
+			}
+			50% {
+				background-position: -300% 0;
+			}
 		}
 
 		#sound-overlay-content .subtitle {
-			font-family: "Outfit", Sans-serif;
+			font-family: "Neue Haas", "Outfit", Sans-serif;
 			font-size: clamp(11px, 2vw, 14px);
-			letter-spacing: 2px;
+			letter-spacing: 3px;
 			text-transform: uppercase;
-			color: #666;
-			margin-top: 20px;
-			margin-bottom: 40px;
+			margin-top: 24px;
+			margin-bottom: 30px;
 			font-weight: 400;
-			/* Animation */
+			/* White shimmer effect */
+			background: linear-gradient(90deg,
+					#888888 0%,
+					#888888 35%,
+					#ffffff 50%,
+					#888888 65%,
+					#888888 100%);
+			background-size: 300% 100%;
+			-webkit-background-clip: text;
+			-webkit-text-fill-color: transparent;
+			background-clip: text;
+			animation: overlayFadeInUp 1.25s ease-out 0.2s forwards, subtitleShimmer 2.5s linear infinite;
 			opacity: 0;
-			transform: translateY(30px);
-			animation: overlayFadeInUp 0.8s ease forwards;
-			animation-delay: 0.4s;
-			overflow: hidden;
-			border-right: 2px solid #666;
-			white-space: nowrap;
-			width: fit-content;
-			margin-left: auto;
-			margin-right: auto;
 		}
 
-		#sound-overlay-content .subtitle.typing {
-			animation: overlayFadeInUp 0.8s ease forwards, typing 2.5s steps(30, end) 0.6s forwards, blink-caret 0.75s step-end infinite;
+		@keyframes subtitleShimmer {
+			0% {
+				background-position: 300% 0;
+			}
+			100% {
+				background-position: -300% 0;
+			}
 		}
 
-		@keyframes typing {
-			from {
-				width: 0;
+		@keyframes overlayShimmer {
+			0% {
+				background-position: -1000px 0;
 			}
 
-			to {
-				width: 100%;
+			100% {
+				background-position: 1000px 0;
+			}
+		}
+
+		@keyframes overlayFadeInUp {
+			0% {
+				opacity: 0;
+				transform: translate3d(0px, 100%, 0px);
+			}
+
+			100% {
+				opacity: 1;
+				transform: none;
 			}
 		}
 
@@ -5178,6 +5294,101 @@
 
 			50% {
 				border-color: #666;
+			}
+		}
+
+		/* Glitch Effect */
+		@keyframes glitch {
+
+			0%,
+			90%,
+			100% {
+				clip-path: inset(0 0 0 0);
+				transform: translate(0);
+			}
+
+			92% {
+				clip-path: inset(40% 0 20% 0);
+				transform: translate(-3px, 2px);
+			}
+
+			94% {
+				clip-path: inset(10% 0 60% 0);
+				transform: translate(3px, -1px);
+			}
+
+			96% {
+				clip-path: inset(70% 0 10% 0);
+				transform: translate(-2px, 1px);
+			}
+
+			98% {
+				clip-path: inset(20% 0 50% 0);
+				transform: translate(2px, -2px);
+			}
+		}
+
+		/* Floating Animation */
+		@keyframes floating {
+
+			0%,
+			100% {
+				transform: translateY(0px);
+			}
+
+			50% {
+				transform: translateY(-10px);
+			}
+		}
+
+		/* Glow Pulse */
+		@keyframes glowPulse {
+
+			0%,
+			100% {
+				text-shadow: 0 0 20px rgba(255, 255, 255, 0.3), 0 0 40px rgba(255, 255, 255, 0.1);
+			}
+
+			50% {
+				text-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 0 0 80px rgba(255, 255, 255, 0.3), 0 0 120px rgba(255, 255, 255, 0.1);
+			}
+		}
+
+		/* Typewriter Effect */
+		@keyframes typewriter {
+			from {
+				width: 0;
+			}
+
+			to {
+				width: 100%;
+			}
+		}
+
+		/* Apply floating to content - DESKTOP ONLY */
+		@media (min-width: 769px) {
+			#sound-overlay-content {
+				animation: floating 4s ease-in-out infinite;
+			}
+		}
+
+		/* Apply effects to title */
+		#sound-overlay-content .main-title {
+			animation: overlayFadeInUp 1.25s ease-out forwards, overlayShimmer 3s linear infinite;
+		}
+
+		/* Simplified animations for mobile - better performance */
+		@media (max-width: 768px) {
+			#sound-overlay-content {
+				animation: none;
+			}
+			
+			#sound-overlay-content .main-title {
+				animation: overlayFadeInUp 1s ease-out forwards;
+			}
+			
+			#sound-overlay-content .subtitle {
+				animation: overlayFadeInUp 1s ease-out 0.2s forwards !important;
 			}
 		}
 
@@ -5256,18 +5467,49 @@
 	<!-- Sound Activation Overlay -->
 	<div id="sound-overlay">
 		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto">
-			<source src="public/videos/cliquepraescalar.mp4" type="video/mp4">
+			<source id="video-source-desktop" src="public/videos/cliquepraescalar.mp4" type="video/mp4">
+		</video>
+		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" style="display: none;">
+			<source src="public/videos/cliquepraescalarvertical.mp4" type="video/mp4">
 		</video>
 		<div id="sound-overlay-content">
 			<h1 class="main-title">
-				<span class="line1">Toque para</span><br>
+				<span class="line1">Toque</span><br class="mobile-only">
+				<span class="line1"> para</span><br>
 				<span class="line2">escalar</span>
 			</h1>
-			<p class="subtitle typing">O clube privado para players do digital</p>
+			<p class="subtitle">O clube privado para players do digital</p>
 			<img class="overlay-logo" src="https://offlineclub.com.br/wp-content/uploads/2025/03/as-300x85.png"
 				alt="Offline Club">
 		</div>
 	</div>
+	<script>
+		// Switch video based on screen size
+		(function() {
+			const desktopVideo = document.getElementById('sound-overlay-video');
+			const mobileVideo = document.getElementById('sound-overlay-video-mobile');
+			
+			function switchVideo() {
+				if (window.innerWidth <= 768) {
+					desktopVideo.style.display = 'none';
+					desktopVideo.pause();
+					mobileVideo.style.display = 'block';
+					mobileVideo.play().catch(e => console.log('Mobile video autoplay blocked'));
+				} else {
+					mobileVideo.style.display = 'none';
+					mobileVideo.pause();
+					desktopVideo.style.display = 'block';
+					desktopVideo.play().catch(e => console.log('Desktop video autoplay blocked'));
+				}
+			}
+			
+			// Initial check
+			switchVideo();
+			
+			// Listen for resize
+			window.addEventListener('resize', switchVideo);
+		})();
+	</script>
 
 	<button id="global-mute-btn" aria-label="Ativar som">
 		<!-- Muted Icon (Default) -->
@@ -5379,9 +5621,37 @@
 				console.log('Audio source:', bgMusic.src);
 				console.log('Audio ready state:', bgMusic.readyState);
 					
+				// Start with volume at 0 for fade-in
+				bgMusic.volume = 0;
+					
 					bgMusic.play().then(() => {
 					console.log('Music playing successfully!');
-				soundOverlay.classList.add('hidden');
+					
+					// Fade in music over 3 seconds
+					const fadeInDuration = 3000; // 3 seconds
+					const fadeSteps = 30;
+					const stepTime = fadeInDuration / fadeSteps;
+					const volumeStep = 1 / fadeSteps;
+					let currentStep = 0;
+					
+					const fadeInterval = setInterval(() => {
+						currentStep++;
+						bgMusic.volume = Math.min(1, volumeStep * currentStep);
+						if (currentStep >= fadeSteps) {
+							clearInterval(fadeInterval);
+							bgMusic.volume = 1;
+							console.log('Music fade-in complete');
+						}
+					}, stepTime);
+
+				// Fade out overlay with animation
+				soundOverlay.classList.add('fade-out');
+
+					// After animation completes, hide completely
+					setTimeout(() => {
+					soundOverlay.classList.add('hidden');
+					}, 600);
+
 				isMusicMuted = false;
 				updateIcon(isMusicMuted);
 				console.log('Music started by user interaction');
