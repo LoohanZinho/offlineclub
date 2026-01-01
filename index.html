@@ -5309,11 +5309,11 @@
 							}
 						} else {
 							// EXITING VIEWPORT
-							if (scrollDirection === 'down' && entry.boundingClientRect.top < 0) {
+							if (entry.boundingClientRect.top < 0) {
 								// Exiting through TOP (scrolling down past them) -> Trigger Exit Animation
 								container.style.animation = ANIM_OUT;
 								entry.target.classList.remove('is-visible');
-							} else if (scrollDirection === 'up' && entry.boundingClientRect.top > 0) {
+							} else {
 								// Exiting through BOTTOM (scrolling up away from them) -> Reset/Hide
 								// Optional: could just let them stay or animate out differently
 								// For now, let's keep them ready to slide up again
