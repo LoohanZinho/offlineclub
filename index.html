@@ -630,24 +630,23 @@
 			line-height: 1.6;
 		}
 
-		/* Float Animation for Pills - Margin Based to avoid Transform Conflict */
-		@keyframes float-pill-margin {
+		/* Float Animation for Pills - Using 'translate' to avoid Transform/Margin Conflict */
+		@keyframes float-pill-translate {
 			0% {
-				margin-top: 0px;
+				translate: 0 0;
 			}
 
 			50% {
-				margin-top: -8px;
+				translate: 0 -8px;
 			}
 
 			100% {
-				margin-top: 0px;
+				translate: 0 0;
 			}
 		}
 
 		.elementor-element.item {
-			animation: float-pill-margin 3.5s ease-in-out infinite !important;
-			transition: margin-top 0.3s ease;
+			animation: float-pill-translate 3.5s ease-in-out infinite;
 		}
 
 		/* Stagger delays */
@@ -3286,7 +3285,7 @@
 								sizes="(max-width: 1622px) 100vw, 1622px" /></noscript>
 					</div>
 				</div>
-				<div style="margin-top: -180px !important; position: relative; z-index: 20;"
+				<div style="margin-top: -250px !important; position: relative; z-index: 20;"
 					class="elementor-element elementor-element-1ee7f47 e-con-full e-flex e-con e-child"
 					data-id="1ee7f47" data-element_type="container">
 					<div class="elementor-element elementor-element-0ff0b26 elementor-widget__width-initial elementor-absolute scroll-bottom elementor-widget elementor-widget-image ativo"
