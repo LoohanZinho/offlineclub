@@ -992,6 +992,18 @@
 			}
 		}
 
+		/* Pill slide-out animation (reverse/exit) */
+		@keyframes pillSlideOut {
+			0% {
+				opacity: 1;
+				transform: translateY(0) scale(1);
+			}
+			100% {
+				opacity: 0;
+				transform: translateY(-30px) scale(1.1);
+			}
+		}
+
 
 		/* Mobile: Pills organized in 2-column grid - STRONG SELECTORS */
 		@media (max-width: 768px) {
@@ -1013,7 +1025,7 @@
 				flex-wrap: wrap !important;
 				justify-content: center !important;
 				align-items: flex-start !important;
-				padding: 30px 10px !important;
+				padding: 0 10px !important;
 				gap: 0 !important;
 				max-width: 100% !important;
 			}
@@ -1709,7 +1721,7 @@
 			width: 100% !important;
 			height: 100% !important;
 			object-fit: cover;
-			border-radius: 8px;
+			border-radius: 16px;
 		}
 
 		.elementor-wrapper.elementor-open-inline {
@@ -5173,7 +5185,7 @@
 			const bgMusic = window.backgroundMusic;
 			if (!bgMusic) return;
 			
-			originalMusicVolume = bgMusic.volume > 0.1 ? bgMusic.volume : originalMusicVolume;
+			originalMusicVolume = bgMusic.volume > 0.05 ? bgMusic.volume : originalMusicVolume;
 			const startVolume = bgMusic.volume;
 			const volumeDiff = targetVolume - startVolume;
 			const startTime = Date.now();
@@ -5187,29 +5199,78 @@
 			}, 20);
 		}
 		
+		// SVG icons from React Icons (FaPlay / FaPause)
+		const PLAY_ICON = '<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z"></path></svg>';
+		const PAUSE_ICON = '<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 448 512" height="48" width="48" xmlns="http://www.w3.org/2000/svg"><path d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"></path></svg>';
+		
+		// Function to create play/pause icon overlay
+		function createIconOverlay(video) {
+			const wrapper = video.parentElement;
+			wrapper.style.position = 'relative';
+			
+			const icon = document.createElement('div');
+			icon.className = 'video-icon-overlay';
+			icon.innerHTML = PLAY_ICON;
+			icon.style.cssText = `
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				color: rgba(255, 255, 255, 0.9);
+				filter: drop-shadow(0 2px 10px rgba(0,0,0,0.5));
+				pointer-events: none;
+				z-index: 10;
+				transition: opacity 0.3s ease;
+			`;
+			wrapper.appendChild(icon);
+			return icon;
+		}
+		
 		videos.forEach(video => {
 			// Style cursor for clickability
 			video.style.cursor = 'pointer';
 			
+			// Create icon overlay
+			const icon = createIconOverlay(video);
+			
+			// Update icon based on video state
+			function updateIcon() {
+				icon.innerHTML = video.paused ? PLAY_ICON : PAUSE_ICON;
+				icon.style.opacity = video.paused ? '1' : '0';
+			}
+			
 			// Click to play/pause
 			video.addEventListener('click', () => {
 				if (video.paused) {
-					// Pause other videos
-					videos.forEach(v => { if (v !== video) v.pause(); });
+					// Pause other videos and update their icons
+					videos.forEach(v => { 
+						if (v !== video) {
+							v.pause();
+						}
+					});
 					// Play this video
 					video.play();
-					// Fade down background music
-					fadeMusicVolume(0.1, 500);
+					// Fade down background music to 3%
+					fadeMusicVolume(0.03, 500);
 				} else {
 					video.pause();
 					// Restore background music
 					fadeMusicVolume(originalMusicVolume, 500);
 				}
+				updateIcon();
 			});
 			
-			// When video ends, restore music volume
+			// Show pause icon briefly on play
+			video.addEventListener('play', () => {
+				icon.innerHTML = PAUSE_ICON;
+				icon.style.opacity = '1';
+				setTimeout(() => { icon.style.opacity = '0'; }, 800);
+			});
+			
+			video.addEventListener('pause', updateIcon);
 			video.addEventListener('ended', () => {
 				fadeMusicVolume(originalMusicVolume, 500);
+				updateIcon();
 			});
 		});
 	});
@@ -5217,32 +5278,59 @@
 
 	<!-- Custom Pills Animation Script -->
 	<script>
-	// Apply custom animations to pills on mobile without conflicting with Elementor
+	// Apply custom animations to pills on mobile with IntersectionObserver
 	if (window.innerWidth <= 768) {
 		document.addEventListener('DOMContentLoaded', () => {
 			const pills = document.querySelectorAll('.elementor-element.item.elementor-absolute');
 			
+			// Track scroll direction
+			let lastScrollY = window.scrollY;
+			let scrollDirection = 'down';
+			
+			window.addEventListener('scroll', () => {
+				scrollDirection = window.scrollY > lastScrollY ? 'down' : 'up';
+				lastScrollY = window.scrollY;
+			});
+			
+			// IntersectionObserver for entrance/exit animations
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					const container = entry.target.querySelector('.elementor-widget-container') || entry.target.firstElementChild;
+					if (!container) return;
+					
+					if (entry.isIntersecting) {
+						// Entering viewport - slide in
+						container.style.animation = 'pillSlideUp 0.6s ease-out forwards';
+						setTimeout(() => {
+							container.style.animation = 'pillSlideUp 0.6s ease-out forwards, pillFloat 3s ease-in-out 0.8s infinite';
+						}, 600);
+					} else if (scrollDirection === 'down') {
+						// Exiting viewport while scrolling down - slide out (expand)
+						container.style.animation = 'pillSlideOut 0.5s ease-in forwards';
+					}
+				});
+			}, {
+				threshold: 0.3,
+				rootMargin: '-10% 0px -10% 0px'
+			});
+			
 			pills.forEach((pill, index) => {
-				// Disable Elementor Motion Effects that were causing 'Inside Sales' bug
+				// Disable Elementor Motion Effects
 				pill.style.setProperty('--translateY', '0px', 'important');
 				pill.style.setProperty('opacity', '1', 'important');
-				pill.style.setProperty('animation', 'none', 'important'); // Remove debug animations
+				pill.style.setProperty('animation', 'none', 'important');
 				
-				// Target the INTERNAL container - transform works here!
-				// Fallback to firstElementChild if .elementor-widget-container is missing (current structure)
 				const container = pill.querySelector('.elementor-widget-container') || pill.firstElementChild;
 				if (!container) return;
 				
-				// Set initial opacity for fade-in
+				// Set initial state (hidden)
 				container.style.opacity = '0';
+				container.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
 				
-				// Apply entrance animation with staggered delay
-				setTimeout(() => {
-					container.style.animation = `pillSlideUp 0.6s ease-out forwards, pillFloat 3s ease-in-out ${0.8 + index * 0.1}s infinite`;
-					container.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
-				}, index * 100);
+				// Observe this pill
+				observer.observe(pill);
 				
-				// Touch effects on the pill itself
+				// Touch effects
 				pill.addEventListener('touchstart', () => {
 					container.style.transform = 'scale(1.05)';
 					container.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.4)';
