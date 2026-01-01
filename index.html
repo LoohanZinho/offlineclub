@@ -630,56 +630,84 @@
 			line-height: 1.6;
 		}
 
-		/* Float Animation for Pills - Margin Based to avoid Transform Conflict */
-		@keyframes float-pill-margin {
+		/* Float Animation for Pills - Inner Container Technique */
+		@keyframes float-pill-inner {
 			0% {
-				margin-top: 0px;
+				transform: translateY(0px);
 			}
 
 			50% {
-				margin-top: -8px;
+				transform: translateY(-8px);
 			}
 
 			100% {
-				margin-top: 0px;
+				transform: translateY(0px);
 			}
 		}
 
+		/* 1. Reset Parent - Make it invisible but keep layout */
 		.elementor-element.item {
-			animation: float-pill-margin 3.5s ease-in-out infinite !important;
-			transition: margin-top 0.3s ease;
+			background: transparent !important;
+			box-shadow: none !important;
+			border: none !important;
+			backdrop-filter: none !important;
+			transition: none !important;
+			/* Remove conflicting animation on parent if any */
+			animation: none !important;
 		}
 
-		/* Stagger delays */
-		.elementor-element.item:nth-child(1) {
+		/* 2. Style & Animate Child Container */
+		.elementor-element.item .elementor-widget-container {
+			/* Recreate Visuals (dark reddish glass) */
+			background: linear-gradient(180deg, rgba(82, 38, 38, 0.4) 0%, rgba(60, 20, 20, 0.4) 100%);
+			backdrop-filter: blur(10px);
+			-webkit-backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.15);
+			border-radius: 100px;
+
+			/* Layout centering */
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 10px 20px;
+			/* Approximate padding */
+
+			/* Animation */
+			animation: float-pill-inner 3.5s ease-in-out infinite;
+			height: 100%;
+			width: 100%;
+		}
+
+		/* Stagger delays - applied to child based on parent index */
+		.elementor-element.item:nth-child(1) .elementor-widget-container {
 			animation-delay: 0s;
 		}
 
-		.elementor-element.item:nth-child(2) {
+		.elementor-element.item:nth-child(2) .elementor-widget-container {
 			animation-delay: 0.8s;
 		}
 
-		.elementor-element.item:nth-child(3) {
+		.elementor-element.item:nth-child(3) .elementor-widget-container {
 			animation-delay: 1.5s;
 		}
 
-		.elementor-element.item:nth-child(4) {
+		.elementor-element.item:nth-child(4) .elementor-widget-container {
 			animation-delay: 2.3s;
 		}
 
-		.elementor-element.item:nth-child(5) {
+		.elementor-element.item:nth-child(5) .elementor-widget-container {
 			animation-delay: 0.5s;
 		}
 
-		.elementor-element.item:nth-child(6) {
+		.elementor-element.item:nth-child(6) .elementor-widget-container {
 			animation-delay: 1.3s;
 		}
 
-		.elementor-element.item:nth-child(7) {
+		.elementor-element.item:nth-child(7) .elementor-widget-container {
 			animation-delay: 2s;
 		}
 
-		.elementor-element.item:nth-child(8) {
+		.elementor-element.item:nth-child(8) .elementor-widget-container {
 			animation-delay: 2.8s;
 		}
 	</style>
