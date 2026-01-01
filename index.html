@@ -629,6 +629,58 @@
 			font-size: 1.5em;
 			line-height: 1.6;
 		}
+
+		/* Float Animation for Pills */
+		@keyframes float-pill {
+			0% {
+				transform: translateY(0px);
+			}
+
+			50% {
+				transform: translateY(-6px);
+			}
+
+			100% {
+				transform: translateY(0px);
+			}
+		}
+
+		.elementor-element.item>.elementor-icon-list-items {
+			animation: float-pill 3.5s ease-in-out infinite;
+		}
+
+		/* Stagger delays */
+		.elementor-element.item:nth-child(1)>.elementor-icon-list-items {
+			animation-delay: 0s;
+		}
+
+		.elementor-element.item:nth-child(2)>.elementor-icon-list-items {
+			animation-delay: 0.8s;
+		}
+
+		.elementor-element.item:nth-child(3)>.elementor-icon-list-items {
+			animation-delay: 1.5s;
+		}
+
+		.elementor-element.item:nth-child(4)>.elementor-icon-list-items {
+			animation-delay: 2.3s;
+		}
+
+		.elementor-element.item:nth-child(5)>.elementor-icon-list-items {
+			animation-delay: 0.5s;
+		}
+
+		.elementor-element.item:nth-child(6)>.elementor-icon-list-items {
+			animation-delay: 1.3s;
+		}
+
+		.elementor-element.item:nth-child(7)>.elementor-icon-list-items {
+			animation-delay: 2s;
+		}
+
+		.elementor-element.item:nth-child(8)>.elementor-icon-list-items {
+			animation-delay: 2.8s;
+		}
 	</style>
 	<link data-minify="1" rel="stylesheet" id="hello-elementor-css"
 		href="https://offlineclub.com.br/wp-content/cache/min/1/wp-content/themes/hello-elementor/assets/css/reset.css?ver=1766750377"
@@ -3233,7 +3285,7 @@
 								sizes="(max-width: 1622px) 100vw, 1622px" /></noscript>
 					</div>
 				</div>
-				<div style="margin-top: -100px; position: relative; z-index: 5;"
+				<div style="margin-top: -180px !important; position: relative; z-index: 20;"
 					class="elementor-element elementor-element-1ee7f47 e-con-full e-flex e-con e-child"
 					data-id="1ee7f47" data-element_type="container">
 					<div class="elementor-element elementor-element-0ff0b26 elementor-widget__width-initial elementor-absolute scroll-bottom elementor-widget elementor-widget-image ativo"
