@@ -1128,7 +1128,51 @@
 			.elementor-element.item.animated {
 				animation-duration: 0.8s !important;
 			}
+
+			/* Reduce spacing between carousel and pills */
+			.elementor-element-2cb7d0c {
+				padding-bottom: 0 !important;
+				margin-bottom: -50px !important;
+			}
+
+			.elementor-element-dbca304 {
+				margin-top: 0 !important;
+				padding-top: 0 !important;
+				margin-bottom: 0 !important;
+				padding-bottom: 20px !important;
+			}
+
+			/* Adjust community card margin to avoid overlap with floating pills */
+			[data-element_type="container"]+.elementor-element-dbca304 {
+				margin-top: -30px !important;
+			}
+
+			/* FIX: Spacing below pills on mobile - RESET height and margin */
+			.elementor-element-dbca304 {
+				margin-bottom: -40px !important;
+				padding-bottom: 0 !important;
+			}
+
+			/* Root cause of gap: Fixed min-height on container */
+			[data-id="56f2d25"] {
+				min-height: auto !important;
+				height: auto !important;
+				padding-bottom: 0 !important;
+			}
 		}
+
+		/* New Floating Animation Class - HIGHER SPECIFICITY */
+		.elementor-element.item.pill-floating {
+			animation-name: pillSlideUp, pillFloat !important;
+			/* Duration/Delay will be set via inline vars: --float-duration, --float-delay */
+			animation-duration: 0.6s, var(--float-duration, 3s) !important;
+			animation-delay: 0s, var(--float-delay, 0s) !important;
+			animation-timing-function: ease-out, ease-in-out !important;
+			animation-iteration-count: 1, infinite !important;
+			animation-fill-mode: forwards, none !important;
+			opacity: 1 !important;
+		}
+
 
 		/* Reduce excessive padding above Depoimentos and FAQ sections */
 		.elementor-element-2cb7d0c,
@@ -1423,7 +1467,8 @@
 							data-id="3e09879" data-element_type="container">
 							<div class="elementor-element elementor-element-03bb3c3 botao elementor-widget elementor-widget-button"
 								data-id="03bb3c3" data-element_type="widget" data-widget_type="button.default">
-								<a class="elementor-button elementor-button-link elementor-size-sm" href="#anc">
+								<a class="elementor-button elementor-button-link elementor-size-sm" href="#anc"
+									data-track-button="comecar-agora">
 									<span class="elementor-button-content-wrapper">
 										<span class="elementor-button-text">COMEÇAR AGORA</span>
 									</span>
@@ -1623,7 +1668,8 @@
 						<strong>infinita gama de conhecimento</strong> disponível na nossa área de membros, com módulos
 						de levantamento de caixa rápido, copy, inteligência artificial, n8n, posicionamento orgânico,
 						tráfego pago do básico ao avançado, Google Ads, contingência, oferta direta, criação de SaaS,
-						web design, branding e muito mais.</p>
+						web design, branding e muito mais.
+					</p>
 
 					<p style="
 						font-family: 'Inter', sans-serif;
@@ -2323,7 +2369,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/igorkadooka/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Igor Kadooka">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2374,7 +2420,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/thearistocratas/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="The Aristocratas">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2425,7 +2471,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/pedrorosa.real/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Pedro Rosa">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2478,7 +2524,8 @@
 											data-id="3ed737b" data-element_type="widget"
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
-												href="suporte">
+												href="suporte" data-track-button="conhecer"
+												data-member-name="Gabriel Soier">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2532,7 +2579,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/gui.tosonii/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Guilherme Tosoni">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2586,7 +2633,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/eualexalvesdc/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Alex Alves">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2640,7 +2687,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/euviniciustroncoso/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Vinícius Troncoso">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2694,7 +2741,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/mineirodasvendas/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Mineiro das Vendas">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2745,7 +2792,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/igorkadooka/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Igor Kadooka">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2796,7 +2843,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/thearistocratas/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="The Aristocratas">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2847,7 +2894,7 @@
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
 												href="https://www.instagram.com/pedrorosa.real/"
-												data-track-button="conhecer">
+												data-track-button="conhecer" data-member-name="Pedro Rosa">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -2897,7 +2944,8 @@
 											data-id="3ed737b" data-element_type="widget"
 											data-widget_type="button.default">
 											<a class="elementor-button elementor-button-link elementor-size-sm"
-												href="suporte">
+												href="suporte" data-track-button="conhecer"
+												data-member-name="Gabriel Soier">
 												<span class="elementor-button-content-wrapper">
 													<span class="elementor-button-icon">
 														<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9"
@@ -4153,7 +4201,8 @@
 					text-align: center;
 				">Eu te prometo: uma vez que você começa a ver <strong>resultados</strong>, o esforço se torna
 						<strong>viciante</strong>, e você nunca mais será capaz de esquecer o <strong>gosto da
-							vitória</strong>.</p>
+							vitória</strong>.
+					</p>
 
 					<!-- Assinatura -->
 					<div style="text-align: center; margin-top: 20px;">
@@ -4273,7 +4322,8 @@
 						data-id="dee3bef" data-element_type="container">
 						<div class="elementor-element elementor-element-739f502 btn scroll-bottom elementor-widget elementor-widget-button ativo"
 							data-id="739f502" data-element_type="widget" data-widget_type="button.default">
-							<a class="elementor-button elementor-button-link elementor-size-sm" href="suporte">
+							<a class="elementor-button elementor-button-link elementor-size-sm" href="suporte"
+								data-track-button="faq">
 								<span class="elementor-button-content-wrapper">
 									<span class="elementor-button-icon">
 										<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
@@ -4288,7 +4338,8 @@
 						</div>
 						<div class="elementor-element elementor-element-0baa5c7 btn scroll-bottom e1 elementor-widget elementor-widget-button ativo"
 							data-id="0baa5c7" data-element_type="widget" data-widget_type="button.default">
-							<a class="elementor-button elementor-button-link elementor-size-sm" href="suporte">
+							<a class="elementor-button elementor-button-link elementor-size-sm" href="suporte"
+								data-track-button="suporte">
 								<span class="elementor-button-content-wrapper">
 									<span class="elementor-button-icon">
 										<svg xmlns="http://www.w3.org/2000/svg" width="9" height="9" viewBox="0 0 9 9"
@@ -4647,7 +4698,8 @@
 								</div>
 								<div
 									class="elementor-field-group elementor-column elementor-field-type-submit elementor-col-100 e-form__buttons">
-									<button class="elementor-button elementor-size-sm" type="submit">
+									<button class="elementor-button elementor-size-sm" type="submit"
+										data-track-button="form-contato">
 										<span class="elementor-button-content-wrapper">
 											<span class="elementor-button-text">Enviar</span>
 										</span>
@@ -5282,71 +5334,52 @@
 				lastScrollY = window.scrollY;
 		});
 
-		// IntersectionObserver for entrance/exit animations
+				// IntersectionObserver for entrance/exit animations
 		const observer = new IntersectionObserver((entries) => {
 					entries.forEach(entry => {
-						const container = entry.target.querySelector('.elementor-widget-container') || entry.target.firstElementChild;
-						if (!container) return;
-
-						// Define animations
-						const ANIM_IN = 'pillSlideUp 0.6s ease-out forwards';
-						const ANIM_FLOAT = ', pillFloat 3s ease-in-out 0.8s infinite';
-						const ANIM_OUT = 'pillSlideOut 0.5s ease-in forwards';
+						const pill = entry.target;
 
 						if (entry.isIntersecting) {
-							// ENTERING VIEWPORT: Trigger Entrance Animation
-							// Only re-trigger if it was previously hidden/exited
-							if (container.style.animationName === 'pillSlideOut' || container.style.opacity === '0') {
-								container.style.animation = ANIM_IN;
-								// Add floating after slide-in finishes
-								setTimeout(() => {
-									// Check if still visible before applying float
-									if (entry.target.classList.contains('is-visible')) {
-										container.style.animation = ANIM_IN + ANIM_FLOAT;
-									}
-								}, 600);
-								entry.target.classList.add('is-visible');
+							// ENTERING VIEWPORT
+							if (!pill.classList.contains('pill-floating')) {
+								pill.classList.add('pill-floating');
+								pill.classList.add('is-visible');
 							}
 						} else {
 							// EXITING VIEWPORT
-							if (entry.boundingClientRect.top < 0) {
-								// Exiting through TOP (scrolling down past them) -> Trigger Exit Animation
-								container.style.animation = ANIM_OUT;
-								entry.target.classList.remove('is-visible');
-							} else {
-								// Exiting through BOTTOM (scrolling up away from them) -> Reset/Hide
-								// Optional: could just let them stay or animate out differently
-								// For now, let's keep them ready to slide up again
-								container.style.opacity = '0';
-								container.style.animation = 'none';
-								entry.target.classList.remove('is-visible');
+							if (entry.boundingClientRect.top > 0) {
+								// Only reset if scrolling UP (leaving from bottom)
+								pill.classList.remove('pill-floating');
+								pill.classList.remove('is-visible');
+								pill.style.opacity = '0';
 							}
 						}
 					});
 		}, {
-					threshold: 0.1, // Trigger as soon as 10% is visible/invisible
-				rootMargin: '-5% 0px -5% 0px' // Slightly shrink detection area to avoid flickering at edges
+					threshold: 0.1,
+				rootMargin: '0px 0px -10% 0px'
 		});
-		
+
 		pills.forEach((pill, index) => {
-					// Disable Elementor Motion Effects globaly for these items to avoid conflicts
+					// Disable Elementor Motion Effects globaly for these items
 					pill.style.setProperty('--translateY', '0px', 'important');
-				pill.style.setProperty('opacity', '1', 'important');
-				pill.style.setProperty('animation', 'none', 'important');
+				pill.style.opacity = '0';
 
-				const container = pill.querySelector('.elementor-widget-container') || pill.firstElementChild;
-				if (!container) return;
+				// Set random float duration and delay for desynchronization via CSS VARS
+				const randomDuration = (2.5 + Math.random() * 2.0).toFixed(2) + 's';
+				const randomDelay = (Math.random() * 1.5).toFixed(2) + 's';
 
-				// Set initial state (hidden)
-				container.style.opacity = '0';
-				container.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+				pill.style.setProperty('--float-duration', randomDuration);
+				pill.style.setProperty('--float-delay', randomDelay);
 
 				// Observe this pill
 				observer.observe(pill);
 
-			// Touch/Hover effects
+				// Touch/Hover effects
+				const container = pill.querySelector('.elementor-widget-container') || pill;
 			const expand = () => {
-					container.style.transform = 'scale(1.05)';
+					container.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+				container.style.transform = 'scale(1.05)';
 				container.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.4)';
 			};
 			const contract = () => {
@@ -5354,12 +5387,11 @@
 				container.style.boxShadow = '';
 			};
 
-				pill.addEventListener('touchstart', expand);
-				pill.addEventListener('touchend', contract);
+				pill.addEventListener('touchstart', expand, {passive: true});
+				pill.addEventListener('touchend', contract, {passive: true});
 				pill.addEventListener('mouseenter', expand);
 				pill.addEventListener('mouseleave', contract);
 		});
-	});
 	</script>
 
 	<!-- Offline Club Button Tracking -->

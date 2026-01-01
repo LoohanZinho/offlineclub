@@ -57,6 +57,24 @@
             action: 'Click - Fazer Parte',
             ga_event: 'fazer_parte_click',
             fb_event: 'AddToCart'
+        },
+        'faq': {
+            category: 'Support',
+            action: 'Click - Perguntas Frequentes',
+            ga_event: 'faq_click',
+            fb_event: 'ViewContent'
+        },
+        'suporte': {
+            category: 'Support',
+            action: 'Click - Falar com Suporte',
+            ga_event: 'suporte_click',
+            fb_event: 'Contact'
+        },
+        'form-contato': {
+            category: 'Lead',
+            action: 'Submit - Formulário Contato',
+            ga_event: 'form_contato_submit',
+            fb_event: 'Lead'
         }
     };
 
@@ -75,7 +93,7 @@
             return;
         }
 
-        const eventLabel = metadata.memberName || metadata.label || buttonType;
+        const eventLabel = metadata.memberName || config.action || buttonType;
 
         // 1. Google Analytics 4
         if (typeof gtag !== 'undefined') {
@@ -100,9 +118,9 @@
             const socio = getUrlParam('socio') || getUrlParam('s') || null;
 
             db.collection('clicks').add({
-                element: eventLabel, // "Igor Kadooka" ou "comecar_agora_click"
-                buttonType: buttonType, // "conhecer", "comecar-agora", etc
-                memberName: metadata.memberName || null, // Nome do membro (se aplicável)
+                element: eventLabel, // "Igor Kadooka" ou "Click - Começar Agora"
+                buttonType: buttonType,
+                memberName: metadata.memberName || null,
                 category: config.category,
                 action: config.action,
                 url: metadata.url || window.location.href,
@@ -111,7 +129,8 @@
                 timestamp: firebase.firestore.FieldValue.serverTimestamp(),
                 userAgent: navigator.userAgent,
                 screenWidth: window.innerWidth,
-                screenHeight: window.innerHeight
+                screenHeight: window.innerHeight,
+                source: socio || 'Direto'
             })
                 .then(() => {
                     console.log('[Offline Club Tracking] Saved to Firestore:', eventLabel);
@@ -119,6 +138,25 @@
                 .catch((error) => {
                     console.error('[Offline Club Tracking] Firestore error:', error);
                 });
+        }
+
+        // 4. Lead Capture for Contact Form
+        if (buttonType === 'form-contato' && db) {
+            const nome = document.querySelector('input[name="nome"]')?.value || 'N/A';
+            const email = document.querySelector('input[name="email"]')?.value || 'N/A';
+            const whatsapp = document.querySelector('input[name="whatsapp"]')?.value || 'N/A';
+
+            if (nome !== 'N/A' || email !== 'N/A') {
+                db.collection('leads').add({
+                    nome,
+                    email,
+                    whatsapp,
+                    socio: getUrlParam('socio') || getUrlParam('s') || null,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    path: window.location.pathname,
+                    source: getUrlParam('socio') || 'Direto'
+                }).then(() => console.log('[Offline Club Tracking] Lead saved to Firestore'));
+            }
         }
 
         // Console log para debug
