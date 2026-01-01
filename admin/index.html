@@ -98,7 +98,6 @@
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://unpkg.com/@lucide/lab@latest"></script>
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
@@ -290,8 +289,8 @@
             const [newPartnerEmail, setNewPartnerEmail] = useState("");
             const [editingPartnerId, setEditingPartnerId] = useState(null);
 
-            const SUPREME_ADMINS = ['loohansb@gmail.com', 'Vinitroncoso@gmail.com'];
-            const isSupreme = SUPREME_ADMINS.includes(user?.email);
+            const SUPREME_ADMINS = ['loohansb@gmail.com', 'vinitroncoso@gmail.com'];
+            const isSupreme = SUPREME_ADMINS.includes(user?.email?.toLowerCase());
 
             // Partner role detection: check if user email matches any partner's email
             const currentPartner = useMemo(() => {
@@ -387,21 +386,32 @@
             const handleClearMetrics = async () => {
                 showConfirm(
                     "Limpar Métricas",
-                    "⚠️ ATENÇÃO: Isso vai apagar TODAS as métricas (visitas e cliques) permanentemente. Deseja continuar?",
+                    "⚠️ ATENÇÃO: Isso vai apagar TODAS as métricas (visitas, cliques e leads) permanentemente. Deseja continuar?",
                     async () => {
                         try {
                             const batch = db.batch();
+
+                            // Buscar todos os documentos
                             const visitsSnp = await db.collection('visits').get();
                             const clicksSnp = await db.collection('clicks').get();
+                            const leadsSnp = await db.collection('leads').get();
 
+                            // Adicionar deleções ao batch
                             visitsSnp.forEach(doc => batch.delete(doc.ref));
                             clicksSnp.forEach(doc => batch.delete(doc.ref));
+                            leadsSnp.forEach(doc => batch.delete(doc.ref));
 
+                            // Executar deleção
                             await batch.commit();
-                            showNotify("Sucesso!", "Métricas limpas com sucesso.");
+
+                            const totalDeleted = visitsSnp.size + clicksSnp.size + leadsSnp.size;
+                            showNotify(
+                                "Sucesso!",
+                                `${totalDeleted} registros deletados com sucesso! (${visitsSnp.size} visitas, ${clicksSnp.size} cliques, ${leadsSnp.size} leads)`
+                            );
                         } catch (err) {
                             console.error("Error clearing metrics", err);
-                            showNotify("Erro!", "Erro ao limpar métricas.", "danger");
+                            showNotify("Erro!", `Erro ao limpar métricas: ${err.message}`, "danger");
                         }
                     }
                 );
@@ -1064,6 +1074,16 @@
                             </div>
                         )}
                     </main>
+
+                    {/* Confirm Modal */}
+                    <ConfirmModal
+                        isOpen={modal.show}
+                        onClose={() => setModal({ ...modal, show: false })}
+                        onConfirm={modal.onConfirm}
+                        title={modal.title}
+                        message={modal.message}
+                        type={modal.type}
+                    />
                 </div>
             );
         };
