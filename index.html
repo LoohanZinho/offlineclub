@@ -14,6 +14,10 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+	
+	<!-- Preload overlay videos for faster loading -->
+	<link rel="preload" href="public/videos/cliquepraescalarvertical.mp4" as="video" type="video/mp4" media="(max-width: 768px)">
+	<link rel="preload" href="public/videos/cliquepraescalar.mp4" as="video" type="video/mp4" media="(min-width: 769px)">
 	<style>
 		html,
 		body {
@@ -1411,12 +1415,46 @@
 	
 	<!-- Sound Activation Overlay - MOVED TO TOP FOR ABSOLUTE ANTI-FLICKER -->
 	<div id="sound-overlay" style="display: flex !important; background-color: #000000 !important; opacity: 1 !important; visibility: visible !important; z-index: 2147483647 !important;">
-		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto">
+		<video id="sound-overlay-video" autoplay loop muted playsinline preload="metadata" poster="" style="opacity: 0; transition: opacity 0.5s ease;">
 			<source id="video-source-desktop" src="public/videos/cliquepraescalar.mp4" type="video/mp4">
 		</video>
-		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" style="display: none;">
+		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="metadata" poster="" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
 			<source src="public/videos/cliquepraescalarvertical.mp4" type="video/mp4">
 		</video>
+		<script>
+			// Show video as soon as it can play (not waiting for full load)
+			(function() {
+				const desktop = document.getElementById('sound-overlay-video');
+				const mobile = document.getElementById('sound-overlay-video-mobile');
+				const isMobile = window.innerWidth <= 768;
+				const activeVideo = isMobile ? mobile : desktop;
+				
+				// Show desktop or mobile based on screen
+				if (isMobile) {
+					desktop.style.display = 'none';
+					mobile.style.display = 'block';
+				}
+				
+				// Show video as soon as it can start playing
+				function showVideo(video) {
+					video.style.opacity = '1';
+					video.play().catch(e => console.log('Autoplay prevented:', e));
+				}
+				
+				// canplay fires when enough data is available to start playing
+				activeVideo.addEventListener('canplay', function() {
+					showVideo(activeVideo);
+				}, { once: true });
+				
+				// Fallback: if video is already ready
+				if (activeVideo.readyState >= 3) {
+					showVideo(activeVideo);
+				}
+				
+				// Force load
+				activeVideo.load();
+			})();
+		</script>
 		<div id="sound-overlay-content">
 			<h1 class="main-title">
 				<span class="line1">Toque</span><br class="mobile-only">
