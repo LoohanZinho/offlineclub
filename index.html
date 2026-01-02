@@ -19,10 +19,23 @@
 	<link rel="preload" href="public/videos/cliquepraescalarvertical_compressed.mp4" as="video" type="video/mp4" media="(max-width: 768px)">
 	<link rel="preload" href="public/videos/cliquepraescalar_compressed.mp4" as="video" type="video/mp4" media="(min-width: 769px)">
 	<style>
+		/* CRITICAL: Hide everything except overlay until page is ready */
 		html,
 		body {
 			background-color: #000000 !important;
+		}
+		
+		/* Hide all content EXCEPT the overlay */
+		body > *:not(#sound-overlay) {
+			opacity: 0 !important;
+			visibility: hidden !important;
+		}
+		
+		/* Show content only after overlay is dismissed */
+		body.content-ready > * {
+			opacity: 1 !important;
 			visibility: visible !important;
+			transition: opacity 0.3s ease !important;
 		}
 
 		/* CRITICAL: Sound Overlay Initial State (Anti-Flicker) */
@@ -1424,6 +1437,9 @@
 		<script>
 			// Show video as soon as it can play (not waiting for full load)
 			(function() {
+				// Safety fallback: Show content after 5s regardless of overlay interaction
+				setTimeout(() => document.body.classList.add('content-ready'), 5000);
+
 				const desktop = document.getElementById('sound-overlay-video');
 				const mobile = document.getElementById('sound-overlay-video-mobile');
 				const isMobile = window.innerWidth <= 768;
@@ -5685,6 +5701,7 @@
 						console.log('Background music started automatically');
 						// If autoplay works, hide overlay
 						soundOverlay.classList.add('hidden');
+						document.body.classList.add('content-ready');
 					}).catch(error => {
 						console.log('Autoplay blocked, overlay already visible', error);
 						// Overlay is already visible, just update mute state
@@ -5717,6 +5734,7 @@
 					
 					bgMusic.play().then(() => {
 					console.log('Music playing successfully!');
+					document.body.classList.add('content-ready');
 					
 					// Fade in music over 3 seconds
 					const fadeInDuration = 3000; // 3 seconds
