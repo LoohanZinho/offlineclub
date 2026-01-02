@@ -1395,6 +1395,27 @@
 <body
 	class="home wp-singular page-template page-template-elementor_canvas page page-id-488 wp-embed-responsive wp-theme-hello-elementor hello-elementor-default elementor-default elementor-template-canvas elementor-kit-13 elementor-page elementor-page-488 e--ua-blink e--ua-chrome e--ua-webkit"
 	style="" data-elementor-device-mode="desktop" cz-shortcut-listen="true">
+	
+	<!-- Sound Activation Overlay - MOVED TO TOP FOR ABSOLUTE ANTI-FLICKER -->
+	<div id="sound-overlay" style="display: flex !important; background-color: #000000 !important; opacity: 1 !important; visibility: visible !important; z-index: 2147483647 !important;">
+		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto">
+			<source id="video-source-desktop" src="public/videos/cliquepraescalar.mp4" type="video/mp4">
+		</video>
+		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" style="display: none;">
+			<source src="public/videos/cliquepraescalarvertical.mp4" type="video/mp4">
+		</video>
+		<div id="sound-overlay-content">
+			<h1 class="main-title">
+				<span class="line1">Toque</span><br class="mobile-only">
+				<span class="line1"> para</span><br>
+				<span class="line2">escalar</span>
+			</h1>
+			<p class="subtitle">O clube privado para players do digital</p>
+			<img class="overlay-logo" src="https://offlineclub.com.br/wp-content/uploads/2025/03/as-300x85.png"
+				alt="Offline Club">
+		</div>
+	</div>
+
 	<!-- Global Fixed Video Background -->
 	<div class="global-video-bg" style="background-color: #000;">
 		<video autoplay muted playsinline style="opacity: 0.35;">
@@ -5491,25 +5512,7 @@
 		}
 	</style>
 
-	<!-- Sound Activation Overlay -->
-	<div id="sound-overlay" style="display: flex !important; background-color: #000000 !important; opacity: 1 !important; visibility: visible !important; z-index: 2147483647 !important;">
-		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto">
-			<source id="video-source-desktop" src="public/videos/cliquepraescalar.mp4" type="video/mp4">
-		</video>
-		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" style="display: none;">
-			<source src="public/videos/cliquepraescalarvertical.mp4" type="video/mp4">
-		</video>
-		<div id="sound-overlay-content">
-			<h1 class="main-title">
-				<span class="line1">Toque</span><br class="mobile-only">
-				<span class="line1"> para</span><br>
-				<span class="line2">escalar</span>
-			</h1>
-			<p class="subtitle">O clube privado para players do digital</p>
-			<img class="overlay-logo" src="https://offlineclub.com.br/wp-content/uploads/2025/03/as-300x85.png"
-				alt="Offline Club">
-		</div>
-	</div>
+	<!-- Sound Activation Overlay Moved to Top -->
 	<script>
 		// Switch video based on screen size
 		(function() {
