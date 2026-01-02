@@ -5727,6 +5727,9 @@
 				e.preventDefault();
 				e.stopPropagation();
 
+				// CRITICAL FIX: Show content IMMEDIATELY on interaction, do not wait for audio
+				document.body.classList.add('content-ready');
+
 				console.log('Attempting to play music...');
 				
 				// CRITICAL: Remove inline styles (anti-flicker) so fade-out class can work via CSS
