@@ -1449,7 +1449,18 @@
 			// Show video as soon as it can play (not waiting for full load)
 			(function() {
 				// Safety fallback: Show content after 5s regardless of overlay interaction
-				setTimeout(() => document.body.classList.add('content-ready'), 5000);
+				setTimeout(() => {
+					document.body.classList.add('content-ready');
+					document.body.style.setProperty('visibility', 'visible', 'important');
+					document.body.style.setProperty('opacity', '1', 'important');
+					// Force children visibility as failsafe
+					Array.from(document.body.children).forEach(child => {
+						if (child.id !== 'sound-overlay') {
+							child.style.setProperty('visibility', 'visible', 'important');
+							child.style.setProperty('opacity', '1', 'important');
+						}
+					});
+				}, 5000);
 
 				const desktop = document.getElementById('sound-overlay-video');
 				const mobile = document.getElementById('sound-overlay-video-mobile');
@@ -5729,6 +5740,18 @@
 
 				// CRITICAL FIX: Show content IMMEDIATELY on interaction, do not wait for audio
 				document.body.classList.add('content-ready');
+				
+				// BRUTE FORCE VISIBILITY: Direct style manipulation to bypass CSS specificity
+				document.body.style.setProperty('visibility', 'visible', 'important');
+				document.body.style.setProperty('opacity', '1', 'important');
+				
+				// Force all direct children to be visible
+				Array.from(document.body.children).forEach(child => {
+					if (child.id !== 'sound-overlay') {
+						child.style.setProperty('visibility', 'visible', 'important');
+						child.style.setProperty('opacity', '1', 'important');
+					}
+				});
 
 				console.log('Attempting to play music...');
 				
