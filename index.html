@@ -5684,13 +5684,13 @@
 						}
 					}, stepTime);
 
-				// Fade out overlay by changing opacity directly
-				soundOverlay.style.opacity = '0';
-				soundOverlay.style.visibility = 'hidden';
+				// Fade out overlay by changing opacity directly - use setProperty to override !important
+				soundOverlay.style.setProperty('opacity', '0', 'important');
+				soundOverlay.style.setProperty('visibility', 'hidden', 'important');
 
 					// After animation completes, hide completely
 					setTimeout(() => {
-					soundOverlay.style.display = 'none';
+					soundOverlay.style.setProperty('display', 'none', 'important');
 					}, 1500);
 
 				isMusicMuted = false;
