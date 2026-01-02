@@ -5580,7 +5580,8 @@
 				// Audio setup - Background music with random track
 				const bgMusic = new Audio(tracks[currentTrackIndex]);
 				bgMusic.loop = false; // No loop - will play next track
-				bgMusic.volume = 0.1; // Volume at 10% (Lowered for better UX)
+				bgMusic.loop = false; // No loop - will play next track
+				bgMusic.volume = 0.05; // Volume at 5% (Aggressively lowered)
 
 				// When current track ends, play next one
 				bgMusic.addEventListener('ended', () => {
@@ -5649,7 +5650,11 @@
 
 				console.log('Attempting to play music...');
 				
-				// CRITICAL: Ensure transition is set BEFORE changing opacity
+				// CRITICAL: Remove inline styles (anti-flicker) so fade-out class can work via CSS
+				// This removes the inline 'opacity: 1 !important' which blocks transitions
+				soundOverlay.removeAttribute('style');
+
+				// Ensure transition is set via CSS class or JS after clearing inline
 				soundOverlay.style.transition = 'opacity 1.5s ease, visibility 1.5s ease';
 				soundOverlay.style.pointerEvents = 'none';
 				
@@ -5671,11 +5676,11 @@
 					
 					const fadeInterval = setInterval(() => {
 						currentStep++;
-						bgMusic.volume = Math.min(0.1, volumeStep * currentStep);
+						bgMusic.volume = Math.min(0.05, volumeStep * currentStep);
 						if (currentStep >= fadeSteps) {
 							clearInterval(fadeInterval);
-							bgMusic.volume = 0.1;
-							console.log('Music fade-in complete (max 10%)');
+							bgMusic.volume = 0.05;
+							console.log('Music fade-in complete (max 5%)');
 						}
 					}, stepTime);
 
@@ -5703,7 +5708,8 @@
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const videos = document.querySelectorAll('.native-video');
-				const MAX_VOLUME = 0.1; // Fixed max volume
+		const videos = document.querySelectorAll('.native-video');
+				const MAX_VOLUME = 0.05; // Fixed max volume at 5%
 				let originalMusicVolume = MAX_VOLUME;
 
 				// Function to fade music volume
