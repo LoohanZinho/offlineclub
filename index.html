@@ -28,15 +28,21 @@
 			left: 0 !important;
 			width: 100vw !important;
 			height: 100vh !important;
-			background: #000 !important;
+			background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 25%, #16213e 50%, #0f0f23 75%, #000000 100%) !important;
+			background-size: 400% 400% !important;
+			animation: gradientShift 8s ease infinite !important;
 			z-index: 2147483647 !important; /* Max z-index */
 			display: flex !important;
 			align-items: center;
 			justify-content: center;
 			opacity: 1 !important;
-			justify-content: center;
-			opacity: 1 !important;
 			visibility: visible !important;
+		}
+
+		@keyframes gradientShift {
+			0% { background-position: 0% 50%; }
+			50% { background-position: 100% 50%; }
+			100% { background-position: 0% 50%; }
 		}
 
 		#sound-overlay.fade-out {
