@@ -20,6 +20,7 @@ Sempre que você terminar uma tarefa importante ou precisar do meu feedback, exe
 
 ## 📝 Formato Correto do JSON
 
+### 🐧 Linux / macOS (curl)
 ```bash
 curl -X POST "https://khzparswbsatflobnuim.supabase.co/functions/v1/notify" \
   -H "Content-Type: application/json" \
@@ -32,6 +33,13 @@ curl -X POST "https://khzparswbsatflobnuim.supabase.co/functions/v1/notify" \
     }
   }'
 ```
+
+### 🪟 Windows (PowerShell)
+```powershell
+Invoke-RestMethod -Uri "https://khzparswbsatflobnuim.supabase.co/functions/v1/notify" -Method POST -Headers @{"Authorization"="Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImtoenBhcnN3YnNhdGZsb2JudWltIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjY1MDc3MDIsImV4cCI6MjA4MjA4MzcwMn0.94YfSrr7o7gLc6SSox9QYtTt6Jp0Of7Wda0SAJHNOWU"; "Content-Type"="application/json"} -Body '{"device_token":"c-h6cuonQOS7cMSajWy4QO:APA91bFAa_DfDD5Bs4rLMyjrFAKbRAPEEVay8aWIuiC78k1ZQ_F8Q9IZTaPn7r2NBKr_O9U-qWXDzP_RVpGJuwrTI5awgPorAVZ07SM-gLx4LmpKASjRzDs","content":{"title":"✅ Título da Notificação","body":"Mensagem detalhada aqui."}}'
+```
+
+> ⚠️ **Importante:** No Windows, NÃO use `curl` com JSON escapado (`\"`). O PowerShell interpreta as barras de forma diferente e causa erro de parsing. Use sempre `Invoke-RestMethod`.
 
 ---
 
