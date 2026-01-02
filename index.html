@@ -5580,7 +5580,7 @@
 				// Audio setup - Background music with random track
 				const bgMusic = new Audio(tracks[currentTrackIndex]);
 				bgMusic.loop = false; // No loop - will play next track
-				bgMusic.volume = 0.3; // Volume at 30%
+				bgMusic.volume = 0.1; // Volume at 10% (Lowered for better UX)
 
 				// When current track ends, play next one
 				bgMusic.addEventListener('ended', () => {
@@ -5649,8 +5649,9 @@
 
 				console.log('Attempting to play music...');
 				
-				// CRITICAL: Remove inline styles (anti-flicker) so fade-out class can work via CSS
-				soundOverlay.removeAttribute('style');
+				// CRITICAL: Ensure transition is set BEFORE changing opacity
+				soundOverlay.style.transition = 'opacity 1.5s ease, visibility 1.5s ease';
+				soundOverlay.style.pointerEvents = 'none';
 				
 				console.log('Audio source:', bgMusic.src);
 				console.log('Audio ready state:', bgMusic.readyState);
@@ -5670,20 +5671,21 @@
 					
 					const fadeInterval = setInterval(() => {
 						currentStep++;
-						bgMusic.volume = Math.min(0.3, volumeStep * currentStep);
+						bgMusic.volume = Math.min(0.1, volumeStep * currentStep);
 						if (currentStep >= fadeSteps) {
 							clearInterval(fadeInterval);
-							bgMusic.volume = 0.3;
-							console.log('Music fade-in complete (max 30%)');
+							bgMusic.volume = 0.1;
+							console.log('Music fade-in complete (max 10%)');
 						}
 					}, stepTime);
 
-				// Fade out overlay with animation
-				soundOverlay.classList.add('fade-out');
+				// Fade out overlay by changing opacity directly
+				soundOverlay.style.opacity = '0';
+				soundOverlay.style.visibility = 'hidden';
 
 					// After animation completes, hide completely
 					setTimeout(() => {
-					soundOverlay.classList.add('hidden');
+					soundOverlay.style.display = 'none';
 					}, 1500);
 
 				isMusicMuted = false;
@@ -5701,14 +5703,18 @@
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const videos = document.querySelectorAll('.native-video');
-				let originalMusicVolume = 0.3; // Default music volume fixed at 30%
+				const MAX_VOLUME = 0.1; // Fixed max volume
+				let originalMusicVolume = MAX_VOLUME;
 
 				// Function to fade music volume
 				function fadeMusicVolume(targetVolume, duration = 500) {
 			const bgMusic = window.backgroundMusic;
 				if (!bgMusic) return;
 			
-			originalMusicVolume = bgMusic.volume > 0.05 ? bgMusic.volume : originalMusicVolume;
+			// Don't capture volume dynamically, use fixed max to prevent jumps
+			// originalMusicVolume = bgMusic.volume > 0.05 ? bgMusic.volume : originalMusicVolume;
+			originalMusicVolume = MAX_VOLUME;
+
 				const startVolume = bgMusic.volume;
 				const volumeDiff = targetVolume - startVolume;
 				const startTime = Date.now();
