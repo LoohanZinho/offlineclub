@@ -43,7 +43,7 @@
 			opacity: 0 !important;
 			visibility: hidden !important;
 			pointer-events: none !important;
-			transition: opacity 0.6s ease, transform 0.6s ease;
+			transition: opacity 1.5s ease, transform 1.5s ease;
 		}
 
 		/* Rounded borders for module/bonus images */
@@ -5670,11 +5670,11 @@
 					
 					const fadeInterval = setInterval(() => {
 						currentStep++;
-						bgMusic.volume = Math.min(1, volumeStep * currentStep);
+						bgMusic.volume = Math.min(0.3, volumeStep * currentStep);
 						if (currentStep >= fadeSteps) {
 							clearInterval(fadeInterval);
-							bgMusic.volume = 1;
-							console.log('Music fade-in complete');
+							bgMusic.volume = 0.3;
+							console.log('Music fade-in complete (max 30%)');
 						}
 					}, stepTime);
 
@@ -5701,7 +5701,7 @@
 	<script>
 	document.addEventListener('DOMContentLoaded', () => {
 		const videos = document.querySelectorAll('.native-video');
-				let originalMusicVolume = 0.5; // Default music volume
+				let originalMusicVolume = 0.3; // Default music volume fixed at 30%
 
 				// Function to fade music volume
 				function fadeMusicVolume(targetVolume, duration = 500) {
