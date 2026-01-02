@@ -16,8 +16,8 @@
 	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
 	
 	<!-- Preload overlay videos for faster loading -->
-	<link rel="preload" href="public/videos/cliquepraescalarvertical.mp4" as="video" type="video/mp4" media="(max-width: 768px)">
-	<link rel="preload" href="public/videos/cliquepraescalar.mp4" as="video" type="video/mp4" media="(min-width: 769px)">
+	<link rel="preload" href="public/videos/cliquepraescalarvertical_compressed.mp4" as="video" type="video/mp4" media="(max-width: 768px)">
+	<link rel="preload" href="public/videos/cliquepraescalar_compressed.mp4" as="video" type="video/mp4" media="(min-width: 769px)">
 	<style>
 		html,
 		body {
@@ -1415,11 +1415,11 @@
 	
 	<!-- Sound Activation Overlay - MOVED TO TOP FOR ABSOLUTE ANTI-FLICKER -->
 	<div id="sound-overlay" style="display: flex !important; background-color: #000000 !important; opacity: 1 !important; visibility: visible !important; z-index: 2147483647 !important;">
-		<video id="sound-overlay-video" autoplay loop muted playsinline preload="metadata" poster="" style="opacity: 0; transition: opacity 0.5s ease;">
-			<source id="video-source-desktop" src="public/videos/cliquepraescalar.mp4" type="video/mp4">
+		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto" poster="" style="opacity: 1;">
+			<source id="video-source-desktop" src="public/videos/cliquepraescalar_compressed.mp4" type="video/mp4">
 		</video>
-		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="metadata" poster="" style="display: none; opacity: 0; transition: opacity 0.5s ease;">
-			<source src="public/videos/cliquepraescalarvertical.mp4" type="video/mp4">
+		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" poster="" style="display: none; opacity: 1;">
+			<source src="public/videos/cliquepraescalarvertical_compressed.mp4" type="video/mp4">
 		</video>
 		<script>
 			// Show video as soon as it can play (not waiting for full load)
