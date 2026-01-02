@@ -13,7 +13,18 @@
 	<link rel="preconnect" href="https://www.youtube.com" crossorigin>
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500;1,600;1,700&display=block" rel="stylesheet">
+	<script>
+		// Wait for DOM and font to load before showing overlay content
+		document.addEventListener('DOMContentLoaded', function() {
+			document.fonts.ready.then(() => {
+				const overlayContent = document.getElementById('sound-overlay-content');
+				if (overlayContent) {
+					overlayContent.style.opacity = '1';
+				}
+			});
+		});
+	</script>
 	
 	<!-- Preload overlay videos for faster loading -->
 	<link rel="preload" href="public/videos/cliquepraescalarvertical_compressed.mp4" as="video" type="video/mp4" media="(max-width: 768px)">
@@ -32,7 +43,8 @@
 		}
 		
 		/* Show content only after overlay is dismissed */
-		body.content-ready > * {
+		/* Exclude #sound-overlay so it can use its own 1.5s fade-out transition */
+		body.content-ready > *:not(#sound-overlay) {
 			opacity: 1 !important;
 			visibility: visible !important;
 			transition: opacity 0.3s ease !important;
@@ -54,6 +66,8 @@
 			justify-content: center;
 			opacity: 1 !important;
 			visibility: visible !important;
+			/* Transition for smooth fade out - must be on base state */
+			transition: opacity 1.5s ease, visibility 1.5s ease, transform 1.5s ease !important;
 		}
 
 		@keyframes gradientShift {
@@ -66,7 +80,6 @@
 			opacity: 0 !important;
 			visibility: hidden !important;
 			pointer-events: none !important;
-			transition: opacity 1.5s ease, transform 1.5s ease;
 		}
 
 		/* Rounded borders for module/bonus images */
@@ -1438,11 +1451,11 @@
 	style="" data-elementor-device-mode="desktop" cz-shortcut-listen="true">
 	
 	<!-- Sound Activation Overlay - MOVED TO TOP FOR ABSOLUTE ANTI-FLICKER -->
-	<div id="sound-overlay" style="display: flex !important; background-color: #000000 !important; opacity: 1 !important; visibility: visible !important; z-index: 2147483647 !important;">
-		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto" poster="" style="opacity: 1; filter: brightness(0.4);">
+	<div id="sound-overlay" style="display: flex !important; position: fixed !important; top: 0 !important; left: 0 !important; width: 100vw !important; height: 100vh !important; background-color: #000000 !important; opacity: 1 !important; visibility: visible !important; z-index: 2147483647 !important; align-items: center !important; justify-content: center !important;">
+		<video id="sound-overlay-video" autoplay loop muted playsinline preload="auto" poster="public/images/overlay-poster.jpg" style="position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; opacity: 0.4; filter: brightness(0.4); z-index: 1;">
 			<source id="video-source-desktop" src="public/videos/cliquepraescalar_compressed.mp4" type="video/mp4">
 		</video>
-		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" poster="" style="display: none; opacity: 1; filter: brightness(0.4);">
+		<video id="sound-overlay-video-mobile" autoplay loop muted playsinline preload="auto" poster="public/images/overlay-poster.jpg" style="display: none; position: absolute; top: 0; left: 0; width: 100vw; height: 100vh; object-fit: cover; opacity: 0.4; filter: brightness(0.4); z-index: 1;">
 			<source src="public/videos/cliquepraescalarvertical_compressed.mp4" type="video/mp4">
 		</video>
 		<script>
@@ -1493,15 +1506,15 @@
 				activeVideo.load();
 			})();
 		</script>
-		<div id="sound-overlay-content">
-			<h1 class="main-title">
+		<div id="sound-overlay-content" style="position: relative; z-index: 10; text-align: center; color: white; display: flex; flex-direction: column; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.3s ease;">
+			<h1 class="main-title" style="font-family: 'Playfair Display', serif; color: white; text-align: center; margin: 0;">
 				<span class="line1">Toque</span><br class="mobile-only">
 				<span class="line1"> para</span><br>
 				<span class="line2">escalar</span>
 			</h1>
-			<p class="subtitle">O clube privado para players do digital</p>
+			<p class="subtitle" style="color: rgba(255,255,255,0.7); text-align: center; margin-top: 10px;">O clube privado para players do digital</p>
 			<img class="overlay-logo" src="https://offlineclub.com.br/wp-content/uploads/2025/03/as-300x85.png"
-				alt="Offline Club">
+				alt="Offline Club" style="margin-top: 20px; max-width: 150px;">
 		</div>
 	</div>
 
@@ -5192,9 +5205,10 @@
 		}
 
 		#sound-overlay.fade-out {
-			opacity: 0;
+			opacity: 0 !important;
 			transform: scale(1.05);
-			pointer-events: none;
+			pointer-events: none !important;
+			visibility: hidden !important;
 		}
 
 		#sound-overlay.hidden {
@@ -5759,8 +5773,7 @@
 				// This removes the inline 'opacity: 1 !important' which blocks transitions
 				soundOverlay.removeAttribute('style');
 
-				// Ensure transition is set via CSS class or JS after clearing inline
-				soundOverlay.style.transition = 'opacity 1.5s ease, visibility 1.5s ease';
+				// Use the .fade-out class which has !important to override other CSS rules
 				soundOverlay.style.pointerEvents = 'none';
 				
 				console.log('Audio source:', bgMusic.src);
@@ -5790,14 +5803,18 @@
 						}
 					}, stepTime);
 
-				// Fade out overlay by changing opacity directly - use setProperty to override !important
-				soundOverlay.style.setProperty('opacity', '0', 'important');
-				soundOverlay.style.setProperty('visibility', 'hidden', 'important');
-
-					// After animation completes, hide completely
-					setTimeout(() => {
-					soundOverlay.style.setProperty('display', 'none', 'important');
-					}, 1500);
+				// Use the .fade-out class for the animation with requestAnimationFrame
+				requestAnimationFrame(() => {
+					requestAnimationFrame(() => {
+						// NOW fade out the overlay using CSS class
+						soundOverlay.classList.add('fade-out');
+						
+						// After animation completes, hide completely
+						setTimeout(() => {
+							soundOverlay.style.setProperty('display', 'none', 'important');
+						}, 1500);
+					});
+				});
 
 				isMusicMuted = false;
 				updateIcon(isMusicMuted);
